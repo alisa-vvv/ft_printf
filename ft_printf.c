@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:53:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/23 19:41:42 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/23 19:47:04 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ You have to implement the following conversions:
 //PROTOTYPE2(CURRENT):
 //				1) parse the format string;
 //				2) once a % is encountered, pass the void ptr to next arg to subfuncs:
-//					2.1) add the string from beg of format until % to the linked list;
+//					2.1) add the string from beginning of format str until % to the linked list;
 //						!!!!! NEED TO ADD CHECK FOR IF STRING EMPTY !!!!!
 //					2.2) check which format specifier is used + check for additional specs;
-//					2.3) convert var to str (if needed), apply add specs, add str to the list;
+//					2.3) convert arg to str (if needed), apply additional specs, add str to the list;
 //					2.4) return the pointer to the next char after specifier ends;
 //				3) continue parsing until end of format string;
 //				4) add the string from last format spec to end of format string to the list;
