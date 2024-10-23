@@ -6,13 +6,22 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:53:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/22 17:45:17 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/23 19:41:42 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h> // testing only
 #include <unistd.h>
 #include <stdarg.h>
+#include <stdlib.h>
+#include "libft.h"
+
+typedef struct pf_list
+{
+	char 	*string;
+	int				size;
+	struct pf_list	*next;
+}					str_list;
 
 /*Here are the requirements:
 • Don’t implement the buffer management of the original printf().
@@ -42,6 +51,19 @@ You have to implement the following conversions:
 //				5) make a big string with all the strings;
 //				6) write that!
 
+//PROTOTYPE2(CURRENT):
+//				1) parse the format string;
+//				2) once a % is encountered, pass the void ptr to next arg to subfuncs:
+//					2.1) add the string from beg of format until % to the linked list;
+//						!!!!! NEED TO ADD CHECK FOR IF STRING EMPTY !!!!!
+//					2.2) check which format specifier is used + check for additional specs;
+//					2.3) convert var to str (if needed), apply add specs, add str to the list;
+//					2.4) return the pointer to the next char after specifier ends;
+//				3) continue parsing until end of format string;
+//				4) add the string from last format spec to end of format string to the list;
+//				5) write the megalist to fd=1
+//				6) win
+
 //FUNCTIONS FOR FORMATS:
 // for each one - a function for: minimum width, right or left-justifying, zerofill for ints
 // for %c, %s, %% - just make a string out of them, %% as exception, very easy;
@@ -53,44 +75,143 @@ You have to implement the following conversions:
 // for %X - convert to hex with uppercase;
 // backslash test
 
-// KEEP IN MID: have to recognise backslash stufF
+//KEEP IN MIND: have to recognise backslash chars(doesnt seem to be necessay, i think it just works)
 
 
+static void	clr_lst(str_list **out_lst)
+{
+	str_list	*next_node;
 
-//int	type_va_decider(void const	*content, int const	type)
-//{
-//
-//	if (type == 0) // to type a string
-//	{
-//		char const	*string_out;
-//		string_out = (char *) content;
-//		ft_strlen(string_out);
-//		ft_lstnew()
-//	}
-//	return (1);
-//}
+	while (*out_lst != NULL)
+	{
+		next_node = (*out_lst)->next;
+		free((*out_lst)->string);
+		free(*out_lst);
+		*out_lst = next_node;
+	}
+}
 
-//int	ft_printf(const char *format, ...)
-//{
-//	va_list		ptr_to_va_list;
-//	int			argumentnum;
-//
-//	argumentnum = 0;
-//	va_start(ptr_to_va_list, format);
-//	printf("should be the first thing: %s\n", va_arg(ptr_to_va_list, char*));
-//	type_va_decider(va_arg(ptr_to_va_list, char*), 0);
-//	printf("should be int: %d\n", va_arg(ptr_to_va_list, int));
-//	printf("should be char: %c\n", va_arg(ptr_to_va_list, char));
-//	va_end(ptr_to_va_list);
-//}
+static int	final_gigastring_out(str_list **out_lst)
+{
+	str_list	*current_node;
+	int			total_len;
+
+	total_len = 0;
+	current_node = *out_lst;
+	while (current_node != NULL)
+	{
+		write(1, current_node->string, current_node->size);
+		total_len += current_node->size;
+		current_node = current_node->next;
+	}
+	clr_lst(out_lst);
+	return (total_len);
+}
+
+static str_list	*create_out_node(char *str_start, int len)
+{
+	str_list	*new_node;
+
+	new_node = (str_list *) malloc(sizeof(str_list));
+	if (!new_node)
+		return (NULL);
+	new_node->string = str_start;
+	new_node->size = len;
+	new_node->next = NULL;
+	return (new_node);
+}
+
+static str_list	*add_str_to_list(char *str_start, str_list **out_lst, int len)
+{
+	str_list	*next_node;
+	str_list	*last_node;
+	
+	next_node = create_out_node(str_start, len);
+	if (!next_node)
+		return (NULL);
+	if (!*out_lst)
+	{
+		*out_lst = next_node;
+		return (*out_lst);
+	}
+	last_node = *out_lst;
+	while (last_node->next != NULL)
+		last_node = last_node->next;
+	last_node->next = next_node;
+	return (*out_lst);
+}
+
+static char	*format_reader(char *format, void* next_var, str_list **out_lst)
+{
+	char			*conv_str;
+	char			*found_spec;
+	char			*specs;
+//	char			*flags;
+	int				spec_len;
+	int				str_len;
+
+//	flags = "-0.# +";
+	specs = "cspdiuxX";
+	found_spec = ft_strchr(specs, *format);
+	if (!found_spec)
+		return (NULL);
+	if (*found_spec == 's')
+	{
+		str_len = ft_strlen(next_var);
+		conv_str = malloc(sizeof(char) * (str_len + 1));
+		if (!conv_str)
+			return (NULL);
+		ft_memcpy(conv_str, next_var, str_len);
+		conv_str[str_len] = '\0';
+		add_str_to_list(conv_str, out_lst, str_len);
+	}
+	/*here would be the while loop to check for flags and gets the pointer to next char after*/
+	spec_len = 1;
+	return (format); // THIS SHOULD RETURN THE POINT TO LAST CHAR OF FORMAT, EDIT FOR BONUS
+}
+
+char	*str_creator(char *format, char *str_start, str_list **out_lst, char *next_var)
+{
+	char	*new_str;
+
+	new_str = malloc((format - str_start) * sizeof(char));
+	if (!new_str)
+		return (NULL);
+	ft_memcpy(new_str, str_start, format - str_start);
+	int	test = format - str_start;
+	if (!add_str_to_list(new_str, out_lst, format - str_start))
+		return (NULL);
+	format = format_reader((format + 1), next_var, out_lst);
+	return (format + 1);
+}
+
+int	format_parser(char *format, ...)
+{
+	char		*str_start;
+	void		*next_var;
+	va_list		f_va;
+	str_list	*out_lst;
+
+
+	out_lst = NULL;
+	str_start = format;
+	va_start(f_va, format);
+	while (*format)
+	{
+		if (*format == '%')
+		{
+			next_var = va_arg(f_va, void*);
+			str_start = str_creator(format, str_start, &out_lst, next_var);
+		}
+		format++;
+	}	
+	if (!add_str_to_list(ft_strdup(str_start), &out_lst, format - str_start - 1))
+		return (0);
+	va_end(f_va);
+	return (final_gigastring_out(&out_lst));
+}
 
 int	main(void)
 {	
-	char	*weee = "weeeeeee";
-
-	printf("we go like this: %+20s - and then a newline\n", weee);
-	printf("show me the adress: %zu\n", weee);
-	printf("show me the adress in hex: %X\n", weee);
-	printf("test a decimal: %+010i\n", 15);
-//	ft_printf("im a format", "lmao", 1, 'c');
+printf("\nTOTAL LEN: %d\n", format_parser("123%s56%s89\n", "4", "7"));
 }
