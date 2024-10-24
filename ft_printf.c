@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:53:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/23 19:47:04 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/24 16:43:29 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <stdlib.h>
-#include "libft.h"
-
-typedef struct pf_list
-{
-	char 	*string;
-	int				size;
-	struct pf_list	*next;
-}					str_list;
+#include "ft_printf.h"
 
 /*Here are the requirements:
 • Don’t implement the buffer management of the original printf().
@@ -178,7 +171,6 @@ char	*str_creator(char *format, char *str_start, str_list **out_lst, char *next_
 	if (!new_str)
 		return (NULL);
 	ft_memcpy(new_str, str_start, format - str_start);
-	int	test = format - str_start;
 	if (!add_str_to_list(new_str, out_lst, format - str_start))
 		return (NULL);
 	format = format_reader((format + 1), next_var, out_lst);
@@ -191,7 +183,6 @@ int	format_parser(char *format, ...)
 	void		*next_var;
 	va_list		f_va;
 	str_list	*out_lst;
-
 
 	out_lst = NULL;
 	str_start = format;
@@ -209,9 +200,4 @@ int	format_parser(char *format, ...)
 		return (0);
 	va_end(f_va);
 	return (final_gigastring_out(&out_lst));
-}
-
-int	main(void)
-{	
-printf("\nTOTAL LEN: %d\n", format_parser("123%s56%s89\n", "4", "7"));
 }
