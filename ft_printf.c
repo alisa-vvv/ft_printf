@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:53:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/24 16:43:29 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:55:06 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,25 @@ You have to implement the following conversions:
 
 //KEEP IN MIND: have to recognise backslash chars(doesnt seem to be necessay, i think it just works)
 
+//%[flags][width][.precision][length]type
+//%[-+ #0][(number)][.number][letters00]
+// 0 - can be added after, or spaces instead if width is present
+// if '-' - left-justfy (can add after conversion)
+// if '+' - add + if needed and not just minus, do after conversion, before left-justification
+// if ' ' - add ' ' if value is pos, negates plus, do after conversion, before justification
+// if '#' - add prefix for x and X, convert pointer to hex
+// if '.', use 
+// width - use 
+// Flags can be in any order, but redundancy is ignored.
+// Field width and precision must follow flags and precede the type specifier.
+// The type specifier is always last.
 
-static void	clr_lst(str_list **out_lst)
+
+// CREATE A LIST OF FUNCITON POINTERS TO APPLY AFTER SCANNING 
+
+void	clr_lst(t_strlst **out_lst)
 {
-	str_list	*next_node;
+	t_strlst	*next_node;
 
 	while (*out_lst != NULL)
 	{
@@ -84,9 +99,9 @@ static void	clr_lst(str_list **out_lst)
 	}
 }
 
-static int	final_gigastring_out(str_list **out_lst)
+int	final_gigastring_out(t_strlst **out_lst)
 {
-	str_list	*current_node;
+	t_strlst	*current_node;
 	int			total_len;
 
 	total_len = 0;
@@ -101,23 +116,24 @@ static int	final_gigastring_out(str_list **out_lst)
 	return (total_len);
 }
 
-static str_list	*create_out_node(char *str_start, int len)
+t_strlst	*create_out_node(char *str_start, int len)
 {
-	str_list	*new_node;
+	t_strlst	*new_node;
 
-	new_node = (str_list *) malloc(sizeof(str_list));
+	new_node = (t_strlst *) malloc(sizeof(t_strlst));
 	if (!new_node)
 		return (NULL);
 	new_node->string = str_start;
+	printf("\t\t\tADDED STRING: %s\n", new_node->string);
 	new_node->size = len;
 	new_node->next = NULL;
 	return (new_node);
 }
 
-static str_list	*add_str_to_list(char *str_start, str_list **out_lst, int len)
+t_strlst	*add_str_to_list(char *str_start, t_strlst **out_lst, int len)
 {
-	str_list	*next_node;
-	str_list	*last_node;
+	t_strlst	*next_node;
+	t_strlst	*last_node;
 	
 	next_node = create_out_node(str_start, len);
 	if (!next_node)
@@ -134,55 +150,75 @@ static str_list	*add_str_to_list(char *str_start, str_list **out_lst, int len)
 	return (*out_lst);
 }
 
-static char	*format_reader(char *format, void* next_var, str_list **out_lst)
-{
-	char			*conv_str;
-	char			*found_spec;
-	char			*specs;
-//	char			*flags;
-	int				spec_len;
-	int				str_len;
+//char	*format_reader(void *next_var, t_strlst **out_lst, *(*conv)(void *, t_strlst **))
+//{
+////	char			*next_str;
+////	char			*found_type;
+////	char			*types;
+////	char			*flags;
+//	int				spec_len;
+//
+////	flags = "-0.# +";:w
+//
+////	types = "%cspdiuxX";
+////	found_type = ft_strchr(types, *format);
+////	if (!found_type)
+////		return (NULL);
+////	if (*found_type == '%')
+////		next_str = convert_char(37, out_lst);
+////	if (*found_type == 's')
+////		next_str = convert_str(next_var, out_lst);
+////	if (*found_type == 'c')
+////		next_str = convert_char((int)(intptr_t)next_var, out_lst);
+//	/*here would be the while loop to check for flags and gets the pointer to next char after*/
+//
+//	spec_len = 1;
+//	return (NULL); // THIS SHOULD RETURN THE POINT TO LAST CHAR OF FORMAT, EDIT FOR BONUS
+//}
 
-//	flags = "-0.# +";
-	specs = "cspdiuxX";
-	found_spec = ft_strchr(specs, *format);
-	if (!found_spec)
-		return (NULL);
-	if (*found_spec == 's')
-	{
-		str_len = ft_strlen(next_var);
-		conv_str = malloc(sizeof(char) * (str_len + 1));
-		if (!conv_str)
-			return (NULL);
-		ft_memcpy(conv_str, next_var, str_len);
-		conv_str[str_len] = '\0';
-		add_str_to_list(conv_str, out_lst, str_len);
-	}
-	/*here would be the while loop to check for flags and gets the pointer to next char after*/
-	spec_len = 1;
-	return (format); // THIS SHOULD RETURN THE POINT TO LAST CHAR OF FORMAT, EDIT FOR BONUS
-}
-
-char	*str_creator(char *format, char *str_start, str_list **out_lst, char *next_var)
+char	*new_str(char *format, char *start, t_strlst **out_lst)
 {
 	char	*new_str;
 
-	new_str = malloc((format - str_start) * sizeof(char));
-	if (!new_str)
+	printf("tesitng start inside new_str: %s+\n", start);
+	if (*start != '%')
+	{
+		new_str = malloc((format - start) * sizeof(char));
+		if (!new_str)
+			return (NULL);
+		ft_memcpy(new_str, start, format - start);
+		if (!add_str_to_list(new_str, out_lst, format - start))
+			return (NULL);
+	}
+	printf("testing format inside new_str: %s\n", format);
+	return (format + 2);
+}
+
+func_ptr	*conv_chooser(char *format)
+{
+	char			*found_type;
+	char			*types;
+
+	types = "%cspdiuxX";
+	found_type = ft_strchr(types, *format);
+	if (!found_type)
 		return (NULL);
-	ft_memcpy(new_str, str_start, format - str_start);
-	if (!add_str_to_list(new_str, out_lst, format - str_start))
-		return (NULL);
-	format = format_reader((format + 1), next_var, out_lst);
-	return (format + 1);
+	//if (*found_type == '%')
+	//	return (convert_char);
+	if (*found_type == 's')
+		return (convert_str);
+	//if (*found_type == 'c')
+	//	return (convert_char);
+	return (NULL);
 }
 
 int	format_parser(char *format, ...)
 {
-	char		*str_start;
-	void		*next_var;
-	va_list		f_va;
-	str_list	*out_lst;
+	char			*str_start;
+	void			*next_var;
+	va_list			f_va;
+	t_strlst		*out_lst;
+	func_ptr		*conv_f;
 
 	out_lst = NULL;
 	str_start = format;
@@ -190,14 +226,21 @@ int	format_parser(char *format, ...)
 	while (*format)
 	{
 		if (*format == '%')
-		{
+		{	
+			conv_f = conv_chooser(format + 1);
 			next_var = va_arg(f_va, void*);
-			str_start = str_creator(format, str_start, &out_lst, next_var);
+			str_start = new_str(format, str_start, &out_lst);
+			conv_f(next_var, &out_lst);
+			format += 2;
 		}
 		format++;
-	}	
-	if (!add_str_to_list(ft_strdup(str_start), &out_lst, format - str_start - 1))
-		return (0);
+		printf("testing format inside parser: %s\n", format);
+	}
 	va_end(f_va);
+	printf("testing last start: %s\n", str_start);
+	char	*teststr = ft_strdup(str_start);
+	free(teststr);
+	if (!add_str_to_list(ft_strdup(str_start), &out_lst, format - str_start))
+		return (0);
 	return (final_gigastring_out(&out_lst));
 }
