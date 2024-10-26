@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:53:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/25 19:55:06 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/26 14:37:37 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,32 +150,6 @@ t_strlst	*add_str_to_list(char *str_start, t_strlst **out_lst, int len)
 	return (*out_lst);
 }
 
-//char	*format_reader(void *next_var, t_strlst **out_lst, *(*conv)(void *, t_strlst **))
-//{
-////	char			*next_str;
-////	char			*found_type;
-////	char			*types;
-////	char			*flags;
-//	int				spec_len;
-//
-////	flags = "-0.# +";:w
-//
-////	types = "%cspdiuxX";
-////	found_type = ft_strchr(types, *format);
-////	if (!found_type)
-////		return (NULL);
-////	if (*found_type == '%')
-////		next_str = convert_char(37, out_lst);
-////	if (*found_type == 's')
-////		next_str = convert_str(next_var, out_lst);
-////	if (*found_type == 'c')
-////		next_str = convert_char((int)(intptr_t)next_var, out_lst);
-//	/*here would be the while loop to check for flags and gets the pointer to next char after*/
-//
-//	spec_len = 1;
-//	return (NULL); // THIS SHOULD RETURN THE POINT TO LAST CHAR OF FORMAT, EDIT FOR BONUS
-//}
-
 char	*new_str(char *format, char *start, t_strlst **out_lst)
 {
 	char	*new_str;
@@ -194,21 +168,22 @@ char	*new_str(char *format, char *start, t_strlst **out_lst)
 	return (format + 2);
 }
 
-func_ptr	*conv_chooser(char *format)
+func_ptr	*conv_chooser(char *format, int *form_len)
 {
 	char			*found_type;
 	char			*types;
 
 	types = "%cspdiuxX";
 	found_type = ft_strchr(types, *format);
-	if (!found_type)
+	*form_len = 1; // THIS SHOOULD CALCULATE LENTTH
+	if (!found_type || *found_type == '%')
 		return (NULL);
-	//if (*found_type == '%')
-	//	return (convert_char);
 	if (*found_type == 's')
-		return (convert_str);
-	//if (*found_type == 'c')
-	//	return (convert_char);
+		return (convert_str); // ALL RETURNS SHOULD BE REPLACED WITH ADDING FUNC TO A LIST
+	if (*found_type == 'c')
+		return (convert_char);
+	if (*found_type == 'd' || *found_type == 'i')
+		return (convert_int);
 	return (NULL);
 }
 
@@ -219,19 +194,30 @@ int	format_parser(char *format, ...)
 	va_list			f_va;
 	t_strlst		*out_lst;
 	func_ptr		*conv_f;
+	int				form_len;
 
 	out_lst = NULL;
+	form_len = 0;
 	str_start = format;
 	va_start(f_va, format);
 	while (*format)
 	{
 		if (*format == '%')
 		{	
-			conv_f = conv_chooser(format + 1);
-			next_var = va_arg(f_va, void*);
-			str_start = new_str(format, str_start, &out_lst);
-			conv_f(next_var, &out_lst);
-			format += 2;
+			conv_f = conv_chooser(format + 1, &form_len);
+			if (conv_f)
+			{
+				next_var = va_arg(f_va, void*);
+				str_start = new_str(format, str_start, &out_lst);
+				conv_f(next_var, &out_lst);
+				format += form_len;
+			}
+			else
+			{
+				convert_percent(&out_lst);
+				str_start = new_str(format, str_start, &out_lst);
+				format++;
+			}
 		}
 		format++;
 		printf("testing format inside parser: %s\n", format);

@@ -6,18 +6,24 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:36:37 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/25 19:01:04 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/26 14:53:50 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdio.h>
+#include <stdint.h>
 
 int	main(void)
 {	
-	printf("\nTOTAL LEN: %d\n", format_parser("12%s56%s90\n", "34", "78"));
-	//printf("test correction: %c\n", 'a');
-	//int	i = 'a';
-	//printf("test: %i\n", i);
-	//printf("return value: %d\n", printf("12345"));
+	int	value = 012;
+	unsigned int	ptr_value;
+	void	*ptr = 0;
+	ptr_value = (unsigned int)(uintptr_t) ptr;
+
+	printf("\nTOTAL LEN: %d\n", format_parser("123%s678%s%c%%%d\n", "45", "9", '0', 0X100));
+	printf("testing with scanf %i", value);
+	printf("okay test then: %s\n", ft_itoa(value));
+	printf("extracting number: %u\n", ptr_value);
+	printf("printing with %%p: %p\n", ptr);
 }
