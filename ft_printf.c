@@ -6,11 +6,11 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:53:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/26 15:50:34 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/26 19:57:12 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h> // testing only
+#include <stdio.h>
 #include <unistd.h>
 #include <stdarg.h>
 #include <stdlib.h>
@@ -124,7 +124,6 @@ t_strlst	*create_out_node(char *str_start, int len)
 	if (!new_node)
 		return (NULL);
 	new_node->string = str_start;
-	printf("\t\tADDED STRING: %s+\n", new_node->string);
 	new_node->size = len;
 	new_node->next = NULL;
 	return (new_node);
@@ -154,15 +153,16 @@ char	*new_str(char *format, char *start, t_strlst **out_lst)
 {
 	char	*new_str;
 
-	if (*start != '%')
-	{
-		new_str = malloc((format - start) * sizeof(char));
-		if (!new_str)
-			return (NULL);
-		ft_memcpy(new_str, start, format - start);
-		if (!add_str_to_list(new_str, out_lst, format - start))
-			return (NULL);
-	}
+//	if (*start != '%')
+//	{
+	new_str = malloc((format - start + 1) * sizeof(char));
+	if (!new_str)
+		return (NULL);
+	new_str [format - start] = '\0';
+	ft_memcpy(new_str, start, format - start);
+	if (!add_str_to_list(new_str, out_lst, format - start))
+		return (NULL);
+//	}
 	return (format + 2);
 }
 
@@ -186,10 +186,16 @@ func_ptr	*conv_chooser(char *format, int *form_len)
 		return (convert_int);
 	if (*found_type == 'u')
 		return (convert_uint);
+	if (*found_type == 'x')
+		return (convert_hex_low);
+	if (*found_type == 'X')
+		return (convert_hex_cap);
+	if (*found_type == 'p')
+		return (convert_ptr);
 	return (NULL);
 }
 
-int	format_parser(char *format, ...)
+int	ft_printf(const char *format, ...)
 {
 	char			*str_start;
 	void			*next_var;
@@ -200,24 +206,27 @@ int	format_parser(char *format, ...)
 
 	out_lst = NULL;
 	form_len = 0;
-	str_start = format;
+	str_start = (char *) format;
 	va_start(f_va, format);
 	while (*format) // this while loop and last string print should probably be it's own function
 	{
 		if (*format == '%')
 		{	
-			conv_f = conv_chooser(format + 1, &form_len);
+			conv_f = conv_chooser((char *) format + 1, &form_len);
 			if (conv_f)
 			{
 				next_var = va_arg(f_va, void*);
-				str_start = new_str(format, str_start, &out_lst);
+				printf("ha?\n");
+				if (*str_start != '%' && *str_start != '\0')
+					str_start = new_str((char *) format, str_start, &out_lst);
 				conv_f(next_var, &out_lst);
 				format += form_len;
 			}
 			else
 			{
 				convert_percent(&out_lst);
-				str_start = new_str(format, str_start, &out_lst);
+				if (*str_start != '%' && *str_start != '\0')
+					str_start = new_str((char *) format, str_start, &out_lst);
 				format++;
 			}
 		}
@@ -225,8 +234,11 @@ int	format_parser(char *format, ...)
 	}
 	va_end(f_va);
 	/*	this is to print the remainder of format str after end is reached	*/
-	if (!add_str_to_list(ft_strdup(str_start), &out_lst, format - str_start))
-		return (0);
+	if (*str_start != '%' && *str_start != '\0')
+	{
+		if (!add_str_to_list(ft_strdup(str_start), &out_lst, format - str_start))
+			return (0);
+	}
 	/*	end																	*/
 	return (final_gigastring_out(&out_lst));
 }
