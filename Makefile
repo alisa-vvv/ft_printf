@@ -6,12 +6,14 @@
 #    By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 12:39:24 by avaliull          #+#    #+#              #
-#    Updated: 2024/10/26 14:43:39 by avaliull         ###   ########.fr        #
+#    Updated: 2024/10/26 15:55:58 by avaliull         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CFILES	=	ft_printf.c\
-			printf_conversions_01.c
+			ft_utoa.c\
+			printf_conv_s%cidu.c
+#			printf_conversions_02.c
 
 OFILES	= $(CFILES:.c=.o)
 

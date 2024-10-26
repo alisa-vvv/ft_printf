@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:33:13 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/26 14:36:06 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/26 15:33:33 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,11 @@ t_strlst	*add_str_to_list(char *str_start, t_strlst **out_lst, int len);
 void	clr_lst(t_strlst **out_lst);
 
 /*	CONVERSION FUNCTIONS	*/
+char	*ft_utoa(unsigned int n);
 char	*convert_str(void *next_var, t_strlst **out_lst);
 char	*convert_char(void *next_var, t_strlst **out_lst);
 char	*convert_percent(t_strlst **out_lst);
 char	*convert_int(void *next_var, t_strlst **out_lst);
+char	*convert_uint(void *next_var, t_strlst **out_lst);
 
 #endif // FT_PRINTF_H

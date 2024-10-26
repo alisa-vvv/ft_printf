@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:36:37 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/26 14:53:50 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/26 15:48:33 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ int	main(void)
 {	
 	int	value = 012;
 	unsigned int	ptr_value;
-	void	*ptr = 0;
+	char	*ptr = "123";
 	ptr_value = (unsigned int)(uintptr_t) ptr;
 
-	printf("\nTOTAL LEN: %d\n", format_parser("123%s678%s%c%%%d\n", "45", "9", '0', 0X100));
+	printf("\nTOTAL LEN: %d\n", format_parser("test u: %u\n.", -345));;
 	printf("testing with scanf %i", value);
 	printf("okay test then: %s\n", ft_itoa(value));
 	printf("extracting number: %u\n", ptr_value);

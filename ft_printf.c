@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:53:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/26 14:37:37 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/26 15:50:34 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ t_strlst	*create_out_node(char *str_start, int len)
 	if (!new_node)
 		return (NULL);
 	new_node->string = str_start;
-	printf("\t\t\tADDED STRING: %s\n", new_node->string);
+	printf("\t\tADDED STRING: %s+\n", new_node->string);
 	new_node->size = len;
 	new_node->next = NULL;
 	return (new_node);
@@ -134,7 +134,7 @@ t_strlst	*add_str_to_list(char *str_start, t_strlst **out_lst, int len)
 {
 	t_strlst	*next_node;
 	t_strlst	*last_node;
-	
+
 	next_node = create_out_node(str_start, len);
 	if (!next_node)
 		return (NULL);
@@ -154,7 +154,6 @@ char	*new_str(char *format, char *start, t_strlst **out_lst)
 {
 	char	*new_str;
 
-	printf("tesitng start inside new_str: %s+\n", start);
 	if (*start != '%')
 	{
 		new_str = malloc((format - start) * sizeof(char));
@@ -164,7 +163,6 @@ char	*new_str(char *format, char *start, t_strlst **out_lst)
 		if (!add_str_to_list(new_str, out_lst, format - start))
 			return (NULL);
 	}
-	printf("testing format inside new_str: %s\n", format);
 	return (format + 2);
 }
 
@@ -175,15 +173,19 @@ func_ptr	*conv_chooser(char *format, int *form_len)
 
 	types = "%cspdiuxX";
 	found_type = ft_strchr(types, *format);
-	*form_len = 1; // THIS SHOOULD CALCULATE LENTTH
+	*form_len = 1; 
+	// THIS SHOOULD CALCULATE LENTTH
+	// ALL RETURNS SHOULD BE REPLACED WITH ADDING FUNC TO A LIST
 	if (!found_type || *found_type == '%')
 		return (NULL);
 	if (*found_type == 's')
-		return (convert_str); // ALL RETURNS SHOULD BE REPLACED WITH ADDING FUNC TO A LIST
+		return (convert_str); 
 	if (*found_type == 'c')
 		return (convert_char);
 	if (*found_type == 'd' || *found_type == 'i')
 		return (convert_int);
+	if (*found_type == 'u')
+		return (convert_uint);
 	return (NULL);
 }
 
@@ -200,7 +202,7 @@ int	format_parser(char *format, ...)
 	form_len = 0;
 	str_start = format;
 	va_start(f_va, format);
-	while (*format)
+	while (*format) // this while loop and last string print should probably be it's own function
 	{
 		if (*format == '%')
 		{	
@@ -220,13 +222,11 @@ int	format_parser(char *format, ...)
 			}
 		}
 		format++;
-		printf("testing format inside parser: %s\n", format);
 	}
 	va_end(f_va);
-	printf("testing last start: %s\n", str_start);
-	char	*teststr = ft_strdup(str_start);
-	free(teststr);
+	/*	this is to print the remainder of format str after end is reached	*/
 	if (!add_str_to_list(ft_strdup(str_start), &out_lst, format - str_start))
 		return (0);
+	/*	end																	*/
 	return (final_gigastring_out(&out_lst));
 }
