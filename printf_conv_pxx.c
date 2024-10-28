@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:43:45 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/26 19:05:06 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:09:34 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ static char	*to_hex(unsigned int n, char *symbols, int *len)
 	return (conv_str);
 }
 
-char	*convert_hex_cap(void *next_var, t_strlst **out_lst)
+char	*convert_hex_cap(unsigned int next_var, t_strlst **out_lst)
 {
 	char			*conv_str;
 	int				len;
 	unsigned int	val;
 
 	len = 0;
-	val = (unsigned int)(uintptr_t)next_var;
+	val = next_var;
 	conv_str = to_hex(val, "0123456789ABCDEF", &len);
 	if (!conv_str)
 		return (NULL);
@@ -64,14 +64,14 @@ char	*convert_hex_cap(void *next_var, t_strlst **out_lst)
 	return (conv_str);
 }
 
-char	*convert_hex_low(void *next_var, t_strlst **out_lst)
+char	*convert_hex_low(unsigned int next_var, t_strlst **out_lst)
 {
 	char			*conv_str;
 	int				len;
 	unsigned int	val;
 
 	len = 0;
-	val = (unsigned int)(uintptr_t)next_var;
+	val = next_var;
 	conv_str = to_hex(val, "0123456789abcdef", &len);
 	if (!conv_str)
 		return (NULL);

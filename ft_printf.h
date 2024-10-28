@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:33:13 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/26 19:07:18 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:33:08 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef char *(func_ptr(void *, t_strlst **));
 
 /*	PRIMARY FUNCTIONS	(these might become static later)*/
 int			ft_printf(const char *format, ...);
-char		*new_str(char *format, char *start, t_strlst **out_lst);
+char	*new_str(char *format, int spec_len, char *start, t_strlst **out_lst);
 int			final_gigastring_out(t_strlst **out_lst);
 
 /*	LIST MANIPULATION FUNCTIONS	(might also become static in sep. file)*/
@@ -37,13 +37,13 @@ void		clr_lst(t_strlst **out_lst);
 
 /*	CONVERSION FUNCTIONS	*/
 char		*ft_utoa(unsigned int n);
-char		*convert_str(void *next_var, t_strlst **out_lst);
-char		*convert_char(void *next_var, t_strlst **out_lst);
 char		*convert_percent(t_strlst **out_lst);
-char		*convert_int(void *next_var, t_strlst **out_lst);
-char		*convert_uint(void *next_var, t_strlst **out_lst);
-char		*convert_hex_low(void *next_var, t_strlst **out_lst);
-char		*convert_hex_cap(void *next_var, t_strlst **out_lst);
-char		*convert_ptr(void *next_var, t_strlst **out_lst);
+char	*convert_str(char *next_var, t_strlst **out_lst);
+char	*convert_char(int next_var, t_strlst **out_lst);
+char	*convert_int(int next_var, t_strlst **out_lst);
+char	*convert_uint(unsigned int next_var, t_strlst **out_lst);
+char	*convert_hex_cap(unsigned int next_var, t_strlst **out_lst);
+char	*convert_hex_low(unsigned int next_var, t_strlst **out_lst);
+char	*convert_ptr(void *next_var, t_strlst **out_lst);
 
 #endif // FT_PRINTF_H

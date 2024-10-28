@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:36:37 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/26 19:48:12 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:29:24 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,5 @@
 
 int	main(void)
 {
-	printf("%c +", '0' + 256);
-	printf("\n");
-	ft_printf("%c +", '0' + 256);	
+	ft_printf("tsting %s, lalala %d\n", "123", 456);
 }

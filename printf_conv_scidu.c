@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 13:03:35 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/26 20:05:51 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:42:18 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,13 @@
 
 #include "ft_printf.h"
 #include <stdlib.h>
-#include <stdint.h>
 
-char	*convert_str(void *next_var, t_strlst **out_lst)
+char	*convert_str(char *next_var, t_strlst **out_lst)
 {
 	char	*conv_str;
 	size_t	str_len;
-	char	*check_null;
 
-	check_null = (char *) next_var;
-	if (!check_null)
+	if (!next_var)
 	{
 		conv_str = ft_strdup("(null)");
 		if (!conv_str)
@@ -50,36 +47,31 @@ char	*convert_percent(t_strlst **out_lst)
 	conv_str = (char *) malloc (sizeof(char) * 2);
 	if (!conv_str)
 		return (NULL);
-	conv_str[0] = 37;
+	conv_str[0] = '%';
 	conv_str[1] = '\0';
 	add_str_to_list(conv_str, out_lst, 1);
 	return (conv_str);
 }
 
-char	*convert_char(void *next_var, t_strlst **out_lst)
+char	*convert_char(int next_var, t_strlst **out_lst)
 {
 	char			*conv_str;
-	int				test;
-	char			val;
 
-	printf("lol\n");
-	test = (int)(intptr_t)next_var;
-	val = (unsigned char) test;
 	conv_str = (char *)malloc (sizeof(char) * 2);
 	if (!conv_str)
 		return (NULL);
-	conv_str[0] = val;
+	conv_str[0] = next_var;
 	conv_str[1] = '\0';
 	add_str_to_list(conv_str, out_lst, 1);
 	return (conv_str);
 }
 
-char	*convert_int(void *next_var, t_strlst **out_lst)
+char	*convert_int(int next_var, t_strlst **out_lst)
 {
 	char	*conv_str;
 	int		str_len;
 
-	conv_str = ft_itoa((int)(intptr_t)next_var);
+	conv_str = ft_itoa(next_var);
 	if (!conv_str)
 		return (NULL);
 	str_len = ft_strlen(conv_str);
@@ -87,12 +79,12 @@ char	*convert_int(void *next_var, t_strlst **out_lst)
 	return (conv_str);
 }
 
-char	*convert_uint(void *next_var, t_strlst **out_lst)
+char	*convert_uint(unsigned int next_var, t_strlst **out_lst)
 {
 	char	*conv_str;
 	int		str_len;
 
-	conv_str = ft_utoa((unsigned int)(uintptr_t)next_var);
+	conv_str = ft_utoa(next_var);
 	if (!conv_str)
 		return (NULL);
 	str_len = ft_strlen(conv_str);

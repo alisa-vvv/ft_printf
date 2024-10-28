@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:53:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/26 19:57:12 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:44:39 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ t_strlst	*add_str_to_list(char *str_start, t_strlst **out_lst, int len)
 	return (*out_lst);
 }
 
-char	*new_str(char *format, char *start, t_strlst **out_lst)
+char	*new_str(char *format, int spec_len, char *start, t_strlst **out_lst)
 {
 	char	*new_str;
 
@@ -163,71 +163,78 @@ char	*new_str(char *format, char *start, t_strlst **out_lst)
 	if (!add_str_to_list(new_str, out_lst, format - start))
 		return (NULL);
 //	}
-	return (format + 2);
+	return (format + spec_len);
 }
 
-func_ptr	*conv_chooser(char *format, int *form_len)
+char	*conv_chooser(char *format, int *spec_len)
 {
-	char			*found_type;
-	char			*types;
+	char	*found_specs;
+//	char	*specs;
 
-	types = "%cspdiuxX";
-	found_type = ft_strchr(types, *format);
-	*form_len = 1; 
+//	specs = "-0.# +";
+	found_specs = (char *) malloc(sizeof(char) * 8);
+	if (!found_specs)
+		return (NULL);
+	*spec_len = 1;
+	while (*format && *format != '%' && *format != 'c' && *format != 's'
+		&& *format != 'd' && *format != 'i' && *format != 'p'
+		&& *format != 'u' && *format != 'x' && *format != 'X')
+	{
+		format++;
+		//this will be expanded for bonus
+	}
+	found_specs[0] = *format;
+	found_specs[1] = '\0';
+	return (found_specs);
 	// THIS SHOOULD CALCULATE LENTTH
 	// ALL RETURNS SHOULD BE REPLACED WITH ADDING FUNC TO A LIST
-	if (!found_type || *found_type == '%')
-		return (NULL);
-	if (*found_type == 's')
-		return (convert_str); 
-	if (*found_type == 'c')
-		return (convert_char);
-	if (*found_type == 'd' || *found_type == 'i')
-		return (convert_int);
-	if (*found_type == 'u')
-		return (convert_uint);
-	if (*found_type == 'x')
-		return (convert_hex_low);
-	if (*found_type == 'X')
-		return (convert_hex_cap);
-	if (*found_type == 'p')
-		return (convert_ptr);
-	return (NULL);
 }
 
 int	ft_printf(const char *format, ...)
 {
 	char			*str_start;
-	void			*next_var;
 	va_list			f_va;
 	t_strlst		*out_lst;
-	func_ptr		*conv_f;
-	int				form_len;
+	char			*conv_arr;
+	int				spec_len;
+	char			*checker;
 
 	out_lst = NULL;
-	form_len = 0;
+	spec_len = 0;
 	str_start = (char *) format;
 	va_start(f_va, format);
 	while (*format) // this while loop and last string print should probably be it's own function
 	{
 		if (*format == '%')
-		{	
-			conv_f = conv_chooser((char *) format + 1, &form_len);
-			if (conv_f)
+		{
+			conv_arr = conv_chooser((char *)format, &spec_len);
+			if (*conv_arr == '%')
+				checker = convert_percent(&out_lst);
+			if (*conv_arr == 'c')
+				checker = convert_char(va_arg(f_va, int), &out_lst);
+			else if (*conv_arr == 's')
+				checker = convert_str(va_arg(f_va, char *), &out_lst);
+			else if (*conv_arr == 'd' || *conv_arr == 'i')
+				checker = convert_int(va_arg(f_va, int), &out_lst);
+			else if (*conv_arr == 'u')
+				checker = convert_uint(va_arg(f_va, unsigned int), &out_lst);
+			else if (*conv_arr == 'p')
+				checker = convert_ptr(va_arg(f_va, void *), &out_lst);
+			else if (*conv_arr == 'x')
+				checker = convert_hex_low(va_arg(f_va, unsigned int), &out_lst);
+			else if (*conv_arr == 'x')
+				checker = convert_hex_cap(va_arg(f_va, unsigned int), &out_lst);
+			if (!checker)
 			{
-				next_var = va_arg(f_va, void*);
-				printf("ha?\n");
-				if (*str_start != '%' && *str_start != '\0')
-					str_start = new_str((char *) format, str_start, &out_lst);
-				conv_f(next_var, &out_lst);
-				format += form_len;
+				clr_lst(&out_lst);
+				free(conv_arr); // THIS IS TEMP, REPLACE FOR LIST CLEARING LATER
+				return (0);
 			}
-			else
+			format += spec_len;
+			if (*str_start != '%' && *str_start)
 			{
-				convert_percent(&out_lst);
-				if (*str_start != '%' && *str_start != '\0')
-					str_start = new_str((char *) format, str_start, &out_lst);
-				format++;
+				format = new_str((char *)format, spec_len, str_start, &out_lst);
+				str_start = (char *)(format + spec_len);
 			}
 		}
 		format++;
