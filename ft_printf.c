@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:53:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/28 14:44:39 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:47:57 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,13 @@ int	ft_printf(const char *format, ...)
 	{
 		if (*format == '%')
 		{
-			conv_arr = conv_chooser((char *)format, &spec_len);
+			conv_arr = conv_chooser((char *)format + 1, &spec_len);
+			if (*str_start != '%' && *str_start)
+			{
+				format = new_str((char *)format, spec_len, str_start, &out_lst);
+				str_start = (char *)(format + spec_len);
+			}
+			printf("testing conv_arr: %s\n", conv_arr);
 			if (*conv_arr == '%')
 				checker = convert_percent(&out_lst);
 			if (*conv_arr == 'c')
@@ -231,11 +237,6 @@ int	ft_printf(const char *format, ...)
 				return (0);
 			}
 			format += spec_len;
-			if (*str_start != '%' && *str_start)
-			{
-				format = new_str((char *)format, spec_len, str_start, &out_lst);
-				str_start = (char *)(format + spec_len);
-			}
 		}
 		format++;
 	}
