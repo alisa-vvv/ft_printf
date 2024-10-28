@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 13:03:35 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/28 14:42:18 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/28 17:47:39 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*convert_char(int next_var, t_strlst **out_lst)
 	conv_str = (char *)malloc (sizeof(char) * 2);
 	if (!conv_str)
 		return (NULL);
-	conv_str[0] = next_var;
+	conv_str[0] = (char)next_var;
 	conv_str[1] = '\0';
 	add_str_to_list(conv_str, out_lst, 1);
 	return (conv_str);

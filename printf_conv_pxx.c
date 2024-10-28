@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:43:45 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/28 14:09:34 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:20:03 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,9 @@ char	*convert_hex_cap(unsigned int next_var, t_strlst **out_lst)
 {
 	char			*conv_str;
 	int				len;
-	unsigned int	val;
 
 	len = 0;
-	val = next_var;
-	conv_str = to_hex(val, "0123456789ABCDEF", &len);
+	conv_str = to_hex(next_var, "0123456789ABCDEF", &len);
 	if (!conv_str)
 		return (NULL);
 	add_str_to_list(conv_str, out_lst, len);
@@ -68,11 +66,9 @@ char	*convert_hex_low(unsigned int next_var, t_strlst **out_lst)
 {
 	char			*conv_str;
 	int				len;
-	unsigned int	val;
 
 	len = 0;
-	val = next_var;
-	conv_str = to_hex(val, "0123456789abcdef", &len);
+	conv_str = to_hex(next_var, "0123456789abcdef", &len);
 	if (!conv_str)
 		return (NULL);
 	add_str_to_list(conv_str, out_lst, len);

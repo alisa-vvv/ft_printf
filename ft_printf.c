@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:53:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/28 14:47:57 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/28 17:42:18 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,16 +208,18 @@ int	ft_printf(const char *format, ...)
 		if (*format == '%')
 		{
 			conv_arr = conv_chooser((char *)format + 1, &spec_len);
-			if (*str_start != '%' && *str_start)
+			if (*str_start != '%' && *str_start != '\0')
 			{
-				format = new_str((char *)format, spec_len, str_start, &out_lst);
-				str_start = (char *)(format + spec_len);
+				if (!new_str((char *)format, spec_len, str_start, &out_lst))
+				{
+					clr_lst(&out_lst);
+					return (0);
+				}
 			}
-			printf("testing conv_arr: %s\n", conv_arr);
 			if (*conv_arr == '%')
 				checker = convert_percent(&out_lst);
 			if (*conv_arr == 'c')
-				checker = convert_char(va_arg(f_va, int), &out_lst);
+				checker = convert_char((int)va_arg(f_va, int), &out_lst);
 			else if (*conv_arr == 's')
 				checker = convert_str(va_arg(f_va, char *), &out_lst);
 			else if (*conv_arr == 'd' || *conv_arr == 'i')
@@ -228,17 +230,19 @@ int	ft_printf(const char *format, ...)
 				checker = convert_ptr(va_arg(f_va, void *), &out_lst);
 			else if (*conv_arr == 'x')
 				checker = convert_hex_low(va_arg(f_va, unsigned int), &out_lst);
-			else if (*conv_arr == 'x')
+			else if (*conv_arr == 'X')
 				checker = convert_hex_cap(va_arg(f_va, unsigned int), &out_lst);
+			free(conv_arr); // THIS IS TEMP, REPLACE FOR LIST CLEARING LATER
 			if (!checker)
 			{
 				clr_lst(&out_lst);
-				free(conv_arr); // THIS IS TEMP, REPLACE FOR LIST CLEARING LATER
 				return (0);
 			}
 			format += spec_len;
+			str_start = (char *)format + 1;
 		}
-		format++;
+		if (*format)
+			format++;
 	}
 	va_end(f_va);
 	/*	this is to print the remainder of format str after end is reached	*/
