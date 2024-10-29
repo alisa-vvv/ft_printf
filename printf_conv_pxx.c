@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:43:45 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/28 15:20:03 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/29 14:28:47 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 
 #include <stdio.h>
 
-static int	calc_len(unsigned int n)
+static int	calc_len(unsigned long long int n)
 {
 	int	len;
 
+	if (n == 0)
+		return (1);
 	len = 0;
 	while (n)
 	{
@@ -29,7 +31,7 @@ static int	calc_len(unsigned int n)
 	return (len);
 }
 
-static char	*to_hex(unsigned int n, char *symbols, int *len)
+static char	*to_hex(unsigned long long int n, char *symbols, int *len)
 {
 	char	*conv_str;
 	int		i;
@@ -40,6 +42,8 @@ static char	*to_hex(unsigned int n, char *symbols, int *len)
 	if (!conv_str)
 		return (NULL);
 	conv_str[i] = '\0';
+	if (n == 0)
+		conv_str[0] = '0';
 	while (n)
 	{
 		i--;
@@ -49,7 +53,7 @@ static char	*to_hex(unsigned int n, char *symbols, int *len)
 	return (conv_str);
 }
 
-char	*convert_hex_cap(unsigned int next_var, t_strlst **out_lst)
+char	*convert_hex_cap(unsigned long long int next_var, t_strlst **out_lst)
 {
 	char			*conv_str;
 	int				len;
@@ -62,7 +66,7 @@ char	*convert_hex_cap(unsigned int next_var, t_strlst **out_lst)
 	return (conv_str);
 }
 
-char	*convert_hex_low(unsigned int next_var, t_strlst **out_lst)
+char	*convert_hex_low(unsigned long long int next_var, t_strlst **out_lst)
 {
 	char			*conv_str;
 	int				len;
@@ -77,12 +81,12 @@ char	*convert_hex_low(unsigned int next_var, t_strlst **out_lst)
 
 char	*convert_ptr(void *next_var, t_strlst **out_lst)
 {
-	char			*conv_str;
-	int				len;
-	unsigned int	ptr_val;
+	char					*conv_str;
+	int						len;
+	unsigned long long int	ptr_val;
 
 	len = 2;
-	ptr_val = (unsigned int)(uintptr_t)next_var;
+	ptr_val = (unsigned long long int)(uintptr_t)next_var;
 	if (!ptr_val)
 	{
 		conv_str = ft_strdup("(nil)");

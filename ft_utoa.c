@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 15:26:12 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/26 15:34:39 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/29 14:18:49 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	utoaer(char *convstr, long unsigned int tmp_int)
 	}
 }
 
-char	*ft_utoa(unsigned int n)
+char	*ft_utoa(long unsigned int n)
 {
 	char				nlen;
 	long unsigned int	tmp_int;

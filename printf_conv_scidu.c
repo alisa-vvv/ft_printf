@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 13:03:35 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/28 17:47:39 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/29 14:22:47 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*convert_int(int next_var, t_strlst **out_lst)
 	return (conv_str);
 }
 
-char	*convert_uint(unsigned int next_var, t_strlst **out_lst)
+char	*convert_uint(unsigned long long int next_var, t_strlst **out_lst)
 {
 	char	*conv_str;
 	int		str_len;

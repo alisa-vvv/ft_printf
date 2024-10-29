@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:33:13 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/28 15:39:11 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/29 14:23:30 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ t_strlst	*add_str_to_list(char *str_start, t_strlst **out_lst, int len);
 void		clr_lst(t_strlst **out_lst);
 
 /*	CONVERSION FUNCTIONS	*/
-char		*ft_utoa(unsigned int n);
+char		*ft_utoa(unsigned long long int n);
 char		*convert_percent(t_strlst **out_lst);
 char	*convert_str(char *next_var, t_strlst **out_lst);
 char	*convert_char(int next_var, t_strlst **out_lst);
 char	*convert_int(int next_var, t_strlst **out_lst);
-char	*convert_uint(unsigned int next_var, t_strlst **out_lst);
-char	*convert_hex_cap(unsigned int next_var, t_strlst **out_lst);
-char	*convert_hex_low(unsigned int next_var, t_strlst **out_lst);
+char	*convert_uint(unsigned long long int next_var, t_strlst **out_lst);
+char	*convert_hex_cap(unsigned long long int next_var, t_strlst **out_lst);
+char	*convert_hex_low(unsigned long long int next_var, t_strlst **out_lst);
 char	*convert_ptr(void *next_var, t_strlst **out_lst);
 
 #endif // FT_PRINTF_H

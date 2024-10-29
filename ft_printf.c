@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:53:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/28 17:42:18 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/29 14:11:09 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,8 +153,6 @@ char	*new_str(char *format, int spec_len, char *start, t_strlst **out_lst)
 {
 	char	*new_str;
 
-//	if (*start != '%')
-//	{
 	new_str = malloc((format - start + 1) * sizeof(char));
 	if (!new_str)
 		return (NULL);
@@ -162,7 +160,6 @@ char	*new_str(char *format, int spec_len, char *start, t_strlst **out_lst)
 	ft_memcpy(new_str, start, format - start);
 	if (!add_str_to_list(new_str, out_lst, format - start))
 		return (NULL);
-//	}
 	return (format + spec_len);
 }
 
