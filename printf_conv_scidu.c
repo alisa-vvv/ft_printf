@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 13:03:35 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/29 14:22:47 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:47:05 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "ft_printf.h"
 #include <stdlib.h>
 
-char	*convert_str(char *next_var, t_strlst **out_lst)
+char	*convert_str(char *next_var, t_strlst **out_lst) // VAR for 0/- (just), VAR FOR . (max), VAR for (width)
 {
 	char	*conv_str;
 	size_t	str_len;
@@ -53,7 +53,7 @@ char	*convert_percent(t_strlst **out_lst)
 	return (conv_str);
 }
 
-char	*convert_char(int next_var, t_strlst **out_lst)
+char	*convert_char(int next_var, t_strlst **out_lst) 
 {
 	char			*conv_str;
 
@@ -66,7 +66,7 @@ char	*convert_char(int next_var, t_strlst **out_lst)
 	return (conv_str);
 }
 
-char	*convert_int(int next_var, t_strlst **out_lst)
+char	*convert_int(int next_var, t_strlst **out_lst) // VAR for +/' ' (sign), VAR for 0/- (just), VAR for width
 {
 	char	*conv_str;
 	int		str_len;
@@ -79,7 +79,7 @@ char	*convert_int(int next_var, t_strlst **out_lst)
 	return (conv_str);
 }
 
-char	*convert_uint(unsigned long long int next_var, t_strlst **out_lst)
+char	*convert_uint(unsigned long long int next_var, t_strlst **out_lst) // VAR for +/' ' (sign), VAR for 0/- (just), VAR for width
 {
 	char	*conv_str;
 	int		str_len;

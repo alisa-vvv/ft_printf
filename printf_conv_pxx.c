@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:43:45 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/29 14:28:47 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:52:14 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char	*to_hex(unsigned long long int n, char *symbols, int *len)
 	return (conv_str);
 }
 
-char	*convert_hex_cap(unsigned long long int next_var, t_strlst **out_lst)
+char	*convert_hex_cap(unsigned long long int next_var, t_strlst **out_lst) // VAR for 0/- (pad), VAR for width, VAR for # (mod), VAR for +/' ' (sign)
 {
 	char			*conv_str;
 	int				len;
@@ -66,7 +66,7 @@ char	*convert_hex_cap(unsigned long long int next_var, t_strlst **out_lst)
 	return (conv_str);
 }
 
-char	*convert_hex_low(unsigned long long int next_var, t_strlst **out_lst)
+char	*convert_hex_low(unsigned long long int next_var, t_strlst **out_lst) // VAR for 0/- (pad), VAR for width, VAR for # (mod), VAR for +/' ' (sign)
 {
 	char			*conv_str;
 	int				len;
@@ -79,7 +79,7 @@ char	*convert_hex_low(unsigned long long int next_var, t_strlst **out_lst)
 	return (conv_str);
 }
 
-char	*convert_ptr(void *next_var, t_strlst **out_lst)
+char	*convert_ptr(void *next_var, t_strlst **out_lst) // VAR for 0/- (pad), VAR for width, VAR for # (mod), VAR for +/' ' (sign)
 {
 	char					*conv_str;
 	int						len;

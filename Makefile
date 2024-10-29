@@ -6,11 +6,12 @@
 #    By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 12:39:24 by avaliull          #+#    #+#              #
-#    Updated: 2024/10/26 18:11:31 by avaliull         ###   ########.fr        #
+#    Updated: 2024/10/29 16:59:21 by avaliull         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CFILES	=	ft_printf.c\
+			printf_strlist_funcs.c\
 			ft_utoa.c\
 			printf_conv_scidu.c\
 			printf_conv_pxx.c

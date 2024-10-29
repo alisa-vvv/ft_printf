@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:53:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/29 14:11:09 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/29 18:53:24 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,47 +15,6 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include "ft_printf.h"
-
-/*Here are the requirements:
-• Don’t implement the buffer management of the original printf().
-• Your function has to handle the following conversions: cspdiuxX%
-• Your function will be compared against the original printf().
-• You must use the command ar to create your library.
-Using the libtool command is forbidden.
-• Your libftprintf.a has to be created at the root of your repository.
-5
-ft_printf Because ft_putnbr() and ft_putstr() aren’t enough
-You have to implement the following conversions:
-• %c Prints a single character.
-• %s Prints a string (as defined by the common C convention).
-• %p The void * pointer argument has to be printed in hexadecimal format.
-• %d Prints a decimal (base 10) number.
-• %i Prints an integer in base 10.
-• %u Prints an unsigned decimal (base 10) number.
-• %x Prints a number in hexadecimal (base 16) lowercase format.
-• %X Prints a number in hexadecimal (base 16) uppercase format.
-• %% Prints a percent sign. */
-
-//PROTOTYPE1: 	1) find format;
-//				2) store in a list node along with the content of the var;
-//					2.5) add a check so that we have the same amount of formats and vars and they're correct;
-//				3) list will contain a format specifier + contnt;
-//				4) return a string to write for each thing;
-//				5) make a big string with all the strings;
-//				6) write that!
-
-//PROTOTYPE2(CURRENT):
-//				1) parse the format string;
-//				2) once a % is encountered, pass the void ptr to next arg to subfuncs:
-//					2.1) add the string from beginning of format str until % to the linked list;
-//						!!!!! NEED TO ADD CHECK FOR IF STRING EMPTY !!!!!
-//					2.2) check which format specifier is used + check for additional specs;
-//					2.3) convert arg to str (if needed), apply additional specs, add str to the list;
-//					2.4) return the pointer to the next char after specifier ends;
-//				3) continue parsing until end of format string;
-//				4) add the string from last format spec to end of format string to the list;
-//				5) write the megalist to fd=1
-//				6) win
 
 //FUNCTIONS FOR FORMATS:
 // for each one - a function for: minimum width, right or left-justifying, zerofill for ints
@@ -84,20 +43,14 @@ You have to implement the following conversions:
 // The type specifier is always last.
 
 
+//TODO:
+// Function to count the specifier lenth, calloc an arr for each specifier and width;
+// pass width and specifier arr to conversion funcs (if needed);
+// conversion funcs have additional conditions that call for flag-applier functions in _bonus files;
+// profit
+
+
 // CREATE A LIST OF FUNCITON POINTERS TO APPLY AFTER SCANNING 
-
-void	clr_lst(t_strlst **out_lst)
-{
-	t_strlst	*next_node;
-
-	while (*out_lst != NULL)
-	{
-		next_node = (*out_lst)->next;
-		free((*out_lst)->string);
-		free(*out_lst);
-		*out_lst = next_node;
-	}
-}
 
 int	final_gigastring_out(t_strlst **out_lst)
 {
@@ -116,75 +69,125 @@ int	final_gigastring_out(t_strlst **out_lst)
 	return (total_len);
 }
 
-t_strlst	*create_out_node(char *str_start, int len)
+void	wid_prec_finder(int *wid_prec, char *start, char *end, char *f_flags) // TO BONUS
 {
-	t_strlst	*new_node;
+	char	*num_end;
+	char	*tmp_ptr;
 
-	new_node = (t_strlst *) malloc(sizeof(t_strlst));
-	if (!new_node)
-		return (NULL);
-	new_node->string = str_start;
-	new_node->size = len;
-	new_node->next = NULL;
-	return (new_node);
-}
-
-t_strlst	*add_str_to_list(char *str_start, t_strlst **out_lst, int len)
-{
-	t_strlst	*next_node;
-	t_strlst	*last_node;
-
-	next_node = create_out_node(str_start, len);
-	if (!next_node)
-		return (NULL);
-	if (!*out_lst)
+	tmp_ptr = start;
+	while(tmp_ptr != end)
 	{
-		*out_lst = next_node;
-		return (*out_lst);
+		if (ft_isdigit(*start))
+			{
+				while (tmp_ptr != end && ft_isdigit(*start))
+				{
+					num_end = tmp_ptr;
+					tmp_ptr++;
+				}
+				break ;
+			}
+		start++;
 	}
-	last_node = *out_lst;
-	while (last_node->next != NULL)
-		last_node = last_node->next;
-	last_node->next = next_node;
-	return (*out_lst);
 }
 
-char	*new_str(char *format, int spec_len, char *start, t_strlst **out_lst)
+void	flag_finder(char *start, char *end, char *f_flags int *wid_prec) // TO BONUS
 {
-	char	*new_str;
+	char	*flags;
+	char	*tmp_start;
+	char	*occ_0;
+	char	*occ_dot;
 
-	new_str = malloc((format - start + 1) * sizeof(char));
-	if (!new_str)
-		return (NULL);
-	new_str [format - start] = '\0';
-	ft_memcpy(new_str, start, format - start);
-	if (!add_str_to_list(new_str, out_lst, format - start))
-		return (NULL);
-	return (format + spec_len);
+	flags = "-# +";
+	i = 0;
+	tmp_start = start;
+	wid_prec_finder(wid_prec);
+	while (i < 5)
+	{
+		while (start != end)
+		{
+			if (*start == flags[i])
+			{
+				f_flags[i + 3] = *start;
+				break ;
+			}
+			start++;
+		}
+		f_flags[i + 1] = '=';
+		start = tmp_start;
+		i++;
+	}
+	// FIRST WE FIND THE FIRST OCCURANCE OF A TYPE SPEC, THIS WILL BE THE END OF SPEC (POTENTIALY ANY ALPHA?)
+	// THEN WE FIND ALL THE FLAGS  ('.' NOT A FLAG)
+	// AFTER FLAGS CAN ONLY BE NUMBERS/DOT/TYPE, ATOI NUMBERS TO GET WIDTH (MIN LEN), JUST 0 OR - WIDTH = 0
+	// AFTER NUMBERS CAN ONLY BE DOT/TYPE
+	// AFTER DOT CAN ONLY BE NUMBERS/TYPE, NUMBERS AFTER DOT = MAXSTRLEN
+	// AFTER NUMBERS CAN ONLY BE TYPE
 }
 
 char	*conv_chooser(char *format, int *spec_len)
 {
 	char	*found_specs;
-//	char	*specs;
+	char	*spec_start;
+	int		wid_prec[3];
 
-//	specs = "-0.# +";
-	found_specs = (char *) malloc(sizeof(char) * 8);
+	spec_start = format;
+	found_specs = (char *) ft_calloc(sizeof(char), 8);
 	if (!found_specs)
 		return (NULL);
 	*spec_len = 1;
 	while (*format && *format != '%' && *format != 'c' && *format != 's'
-		&& *format != 'd' && *format != 'i' && *format != 'p'
-		&& *format != 'u' && *format != 'x' && *format != 'X')
+	&& *format != 'd' && *format != 'i' && *format != 'p'
+	&& *format != 'u' && *format != 'x' && *format != 'X')
 	{
 		format++;
-		//this will be expanded for bonus
+		*spec_len++;
 	}
+	wid_prec[2] = 0;
+	flag_finder(spec_start, spec_end, found_flags, wid_prec);
 	found_specs[0] = *format;
-	found_specs[1] = '\0';
 	return (found_specs);
-	// THIS SHOOULD CALCULATE LENTTH
-	// ALL RETURNS SHOULD BE REPLACED WITH ADDING FUNC TO A LIST
+}
+
+char	*format_parser(char *f_ptr, va_list f_va, t_strlst **out_lst, char *str_start)
+{
+	int				spec_len;
+	char			*conv_arr;
+	char			*checker;
+	
+	spec_len = 0;
+	conv_arr = conv_chooser(f_ptr + 1, &spec_len);
+	if (*str_start != '%' && *str_start != '\0')
+	{
+		if (!new_str(f_ptr, spec_len, str_start, out_lst))
+		{
+			free(conv_arr); // THIS IS TEMP, REPLACE FOR LIST CLEARING LATER
+			clr_lst(out_lst);
+			return (NULL);
+		}
+	}
+	if (*conv_arr == '%')
+		checker = convert_percent(out_lst);
+	if (*conv_arr == 'c')
+		checker = convert_char((int)va_arg(f_va, int), out_lst);
+	else if (*conv_arr == 's')
+		checker = convert_str(va_arg(f_va, char *), out_lst);
+	else if (*conv_arr == 'd' || *conv_arr == 'i')
+		checker = convert_int(va_arg(f_va, int), out_lst);
+	else if (*conv_arr == 'u')
+		checker = convert_uint(va_arg(f_va, unsigned int), out_lst);
+	else if (*conv_arr == 'p')
+		checker = convert_ptr(va_arg(f_va, void *), out_lst);
+	else if (*conv_arr == 'x')
+		checker = convert_hex_low(va_arg(f_va, unsigned int), out_lst);
+	else if (*conv_arr == 'X')
+		checker = convert_hex_cap(va_arg(f_va, unsigned int), out_lst);
+	free(conv_arr); // THIS IS TEMP, REPLACE FOR LIST CLEARING LATER
+	if (!checker)
+	{
+		clr_lst(out_lst);
+		return (NULL);
+	}
+	return (f_ptr + spec_len);
 }
 
 int	ft_printf(const char *format, ...)
@@ -192,60 +195,29 @@ int	ft_printf(const char *format, ...)
 	char			*str_start;
 	va_list			f_va;
 	t_strlst		*out_lst;
-	char			*conv_arr;
-	int				spec_len;
-	char			*checker;
+	char			*f_ptr;
 
 	out_lst = NULL;
-	spec_len = 0;
-	str_start = (char *) format;
+	f_ptr = (char *) format;
+	str_start = f_ptr;
 	va_start(f_va, format);
-	while (*format) // this while loop and last string print should probably be it's own function
+	while (*f_ptr) // this while loop and last string print should probably be it's own function
 	{
-		if (*format == '%')
+		if (*f_ptr == '%')
 		{
-			conv_arr = conv_chooser((char *)format + 1, &spec_len);
-			if (*str_start != '%' && *str_start != '\0')
-			{
-				if (!new_str((char *)format, spec_len, str_start, &out_lst))
-				{
-					clr_lst(&out_lst);
-					return (0);
-				}
-			}
-			if (*conv_arr == '%')
-				checker = convert_percent(&out_lst);
-			if (*conv_arr == 'c')
-				checker = convert_char((int)va_arg(f_va, int), &out_lst);
-			else if (*conv_arr == 's')
-				checker = convert_str(va_arg(f_va, char *), &out_lst);
-			else if (*conv_arr == 'd' || *conv_arr == 'i')
-				checker = convert_int(va_arg(f_va, int), &out_lst);
-			else if (*conv_arr == 'u')
-				checker = convert_uint(va_arg(f_va, unsigned int), &out_lst);
-			else if (*conv_arr == 'p')
-				checker = convert_ptr(va_arg(f_va, void *), &out_lst);
-			else if (*conv_arr == 'x')
-				checker = convert_hex_low(va_arg(f_va, unsigned int), &out_lst);
-			else if (*conv_arr == 'X')
-				checker = convert_hex_cap(va_arg(f_va, unsigned int), &out_lst);
-			free(conv_arr); // THIS IS TEMP, REPLACE FOR LIST CLEARING LATER
-			if (!checker)
-			{
-				clr_lst(&out_lst);
+			f_ptr = format_parser(f_ptr, f_va, &out_lst, str_start);
+			if (!f_ptr)
 				return (0);
-			}
-			format += spec_len;
-			str_start = (char *)format + 1;
+			str_start = f_ptr + 1;
 		}
-		if (*format)
-			format++;
+		if (*f_ptr)
+			f_ptr++;
 	}
 	va_end(f_va);
 	/*	this is to print the remainder of format str after end is reached	*/
 	if (*str_start != '%' && *str_start != '\0')
 	{
-		if (!add_str_to_list(ft_strdup(str_start), &out_lst, format - str_start))
+		if (!add_str_to_list(ft_strdup(str_start), &out_lst, f_ptr - str_start))
 			return (0);
 	}
 	/*	end																	*/
