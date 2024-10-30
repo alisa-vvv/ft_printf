@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:53:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/30 18:59:51 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/30 19:44:56 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,49 +16,8 @@
 #include <stdlib.h>
 #include "ft_printf.h"
 
-//FUNCTIONS FOR FORMATS:
-// for each one - a function for: minimum width, right or left-justifying, zerofill for ints
-// for %c, %s, %% - just make a string out of them, %% as exception, very easy;
-// for %p - convert adress to hexidecimal string;
-// for %d - just itoa;
-// for %i - itoa and convert it to octal/hexa if necessary;
-// for %u - itoa without negative case;
-// for %x - convert to hex with lowwercase;
-// for %X - convert to hex with uppercase;
-// backslash test
-
-//KEEP IN MIND: have to recognise backslash chars(doesnt seem to be necessay, i think it just works)
-
 //%[flags][width][.precision][length]type
 //%[-+ #0][(number)][.number][letters00]
-// 0 - can be added after, or spaces instead if width is present
-// if '-' - left-justfy (can add after conversion)
-// if '+' - add + if needed and not just minus, do after conversion, before left-justification
-// if ' ' - add ' ' if value is pos, negates plus, do after conversion, before justification
-// if '#' - add prefix for x and X, convert pointer to hex
-// if '.', use 
-// width - use 
-// Flags can be in any order, but redundancy is ignored.
-// Field width and precision must follow flags and precede the type specifier.
-// The type specifier is always last.
-
-
-//TODO:
-// Function to count the specifier lenth, calloc an arr for each specifier and width;
-// pass width and specifier arr to conversion funcs (if needed);
-// conversion funcs have additional conditions that call for flag-applier functions in _bonus files;
-// profit
-
-
-// This is the top level of the program. It manages the following:
-//	- intake of the format string and variables;
-//	- parsing through the format string;
-//	- parsing through the va_list;
-//	- finding specifiers, calculating the length of the specifier, determening var type;
-//	- passing the variables, type, and found specifiers to other functions for conversion;
-//	- clearing the list of formatted strings in case of alloc error;
-//	- writing the list of all formatted strings.
-// -1 is returned in case of alloc error. Otherwise, return value is total length.
 
 int	final_gigastring_out(t_strlst **out_lst)
 {

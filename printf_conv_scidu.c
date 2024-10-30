@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 13:03:35 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/30 19:27:47 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/30 19:49:33 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ char	*c_str(char *next_var, t_strlst **out_lst, char *flags, size_t *wid_prec)
 		conv_str = (char *) malloc(sizeof(char) * (str_len + 1));
 		if (!conv_str)
 			return (NULL);
-		ft_memcpy(conv_str, next_var, str_len);
-		conv_str[str_len] = '\0';
+		ft_memcpy(conv_str, next_var, str_len + 1);
 	}
 	conv_str = app_flags_cs(conv_str, flags, wid_prec, &str_len);
 	add_str_to_list(conv_str, out_lst, str_len);
