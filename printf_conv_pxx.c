@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:43:45 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/29 16:52:14 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:36:09 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,12 @@
 
 #include <stdio.h>
 
-static int	calc_len(unsigned long long int n)
+// The following functions manage conversions for %p, %x, %X to string;
+// After conversion, function to apply bonus flags and manage width is called;
+// The resulting string is passed to add_str_to_list for writing later;
+// Return is either NULL or a ptr to the converted string for error-checking.
+
+static int	calc_len(unsigned long long n)
 {
 	int	len;
 
@@ -31,7 +36,7 @@ static int	calc_len(unsigned long long int n)
 	return (len);
 }
 
-static char	*to_hex(unsigned long long int n, char *symbols, int *len)
+static char	*to_hex(unsigned long long n, char *symbols, int *len)
 {
 	char	*conv_str;
 	int		i;
@@ -53,7 +58,7 @@ static char	*to_hex(unsigned long long int n, char *symbols, int *len)
 	return (conv_str);
 }
 
-char	*convert_hex_cap(unsigned long long int next_var, t_strlst **out_lst) // VAR for 0/- (pad), VAR for width, VAR for # (mod), VAR for +/' ' (sign)
+char	*c_hexup(unsigned long long next_var, t_strlst **out_lst) // VAR for 0/- (pad), VAR for width, VAR for # (mod), VAR for +/' ' (sign)
 {
 	char			*conv_str;
 	int				len;
@@ -66,7 +71,7 @@ char	*convert_hex_cap(unsigned long long int next_var, t_strlst **out_lst) // VA
 	return (conv_str);
 }
 
-char	*convert_hex_low(unsigned long long int next_var, t_strlst **out_lst) // VAR for 0/- (pad), VAR for width, VAR for # (mod), VAR for +/' ' (sign)
+char	*c_hexlo(unsigned long long next_var, t_strlst **out_lst) // VAR for 0/- (pad), VAR for width, VAR for # (mod), VAR for +/' ' (sign)
 {
 	char			*conv_str;
 	int				len;
@@ -79,14 +84,14 @@ char	*convert_hex_low(unsigned long long int next_var, t_strlst **out_lst) // VA
 	return (conv_str);
 }
 
-char	*convert_ptr(void *next_var, t_strlst **out_lst) // VAR for 0/- (pad), VAR for width, VAR for # (mod), VAR for +/' ' (sign)
+char	*c_ptr(void *next_var, t_strlst **out_lst) // VAR for 0/- (pad), VAR for width, VAR for # (mod), VAR for +/' ' (sign)
 {
-	char					*conv_str;
-	int						len;
-	unsigned long long int	ptr_val;
+	char				*conv_str;
+	int					len;
+	unsigned long long	ptr_val;
 
 	len = 2;
-	ptr_val = (unsigned long long int)(uintptr_t)next_var;
+	ptr_val = (unsigned long long)(uintptr_t)next_var;
 	if (!ptr_val)
 	{
 		conv_str = ft_strdup("(nil)");

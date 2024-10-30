@@ -6,7 +6,7 @@
 #    By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 12:39:24 by avaliull          #+#    #+#              #
-#    Updated: 2024/10/29 16:59:21 by avaliull         ###   ########.fr        #
+#    Updated: 2024/10/30 18:51:13 by avaliull         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,9 @@ CFILES	=	ft_printf.c\
 			printf_strlist_funcs.c\
 			ft_utoa.c\
 			printf_conv_scidu.c\
-			printf_conv_pxx.c
+			printf_conv_pxx.c\
+			printf_flags_bonus.c\
+			printf_appf_cs_bonus.c
 
 OFILES	= $(CFILES:.c=.o)
 
@@ -49,6 +51,8 @@ $(NAME): $(OFILES) $(LIBFT)
 libft_clean:
 	$(MAKE) clean -C $(LIBFTDIR)
 
+bonus: all
+
 clean: libft_clean
 	$(RM) $(OFILES)
 
@@ -57,4 +61,4 @@ fclean:	clean
 
 re:	fclean all
 
-.PHONY:	all clean fclean re libft_clean libft_bonus
+.PHONY:	all bonus clean fclean re libft_clean libft_bonus

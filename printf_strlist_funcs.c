@@ -6,12 +6,17 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:56:29 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/29 16:59:47 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:34:16 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdlib.h>
+
+// The following functions manage: 
+//	- creation of new strings from format string;
+//	- adding formatted (created) strings to the list of all strings;
+//	- clearing the list in case of an allocation error.
 
 void	clr_lst(t_strlst **out_lst)
 {
