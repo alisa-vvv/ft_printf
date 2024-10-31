@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 13:03:35 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/30 19:49:33 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:59:47 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ char	*c_str(char *next_var, t_strlst **out_lst, char *flags, size_t *wid_prec)
 		ft_memcpy(conv_str, next_var, str_len + 1);
 	}
 	conv_str = app_flags_cs(conv_str, flags, wid_prec, &str_len);
-	add_str_to_list(conv_str, out_lst, str_len);
+	if (!add_str_to_list(conv_str, out_lst, str_len))
+		return (NULL);
 	return (conv_str);
 }
 
@@ -58,11 +59,12 @@ char	*c_perc(t_strlst **out_lst)
 		return (NULL);
 	conv_str[0] = '%';
 	conv_str[1] = '\0';
-	add_str_to_list(conv_str, out_lst, 1);
+	if (!add_str_to_list(conv_str, out_lst, 1))
+		return (NULL);
 	return (conv_str);
 }
 
-char	*c_char(int next_var, t_strlst **out_lst, char *flags, size_t *wid_prec) 
+char	*c_char(int next_var, t_strlst **out_lst, char *flags, size_t *wid_prec)
 {
 	char	*conv_str;
 	size_t	str_len;
@@ -74,20 +76,23 @@ char	*c_char(int next_var, t_strlst **out_lst, char *flags, size_t *wid_prec)
 	conv_str[1] = '\0';
 	str_len = 1;
 	conv_str = app_flags_cs(conv_str, flags, wid_prec, &str_len);
-	add_str_to_list(conv_str, out_lst, str_len);
+	if (!add_str_to_list(conv_str, out_lst, str_len))
+		return (NULL);
 	return (conv_str);
 }
 
-char	*c_int(int next_var, t_strlst **out_lst) // VAR for +/' ' (sign), VAR for 0/- (just), VAR for width
+char	*c_int(int next_var, t_strlst **out_lst, char *flags, size_t *wid_prec)
 {
 	char	*conv_str;
-	int		str_len;
+	size_t	str_len;
 
 	conv_str = ft_itoa(next_var);
 	if (!conv_str)
 		return (NULL);
 	str_len = ft_strlen(conv_str);
-	add_str_to_list(conv_str, out_lst, str_len);
+	conv_str = app_flags_di(conv_str, flags, wid_prec, &str_len);
+	if (!add_str_to_list(conv_str, out_lst, str_len))
+		return (NULL);
 	return (conv_str);
 }
 
@@ -100,6 +105,7 @@ char	*c_uint(unsigned long long next_var, t_strlst **out_lst) // VAR for +/' ' (
 	if (!conv_str)
 		return (NULL);
 	str_len = ft_strlen(conv_str);
-	add_str_to_list(conv_str, out_lst, str_len);
+	if (!add_str_to_list(conv_str, out_lst, str_len))
+		return (NULL);
 	return (conv_str);
 }

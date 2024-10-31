@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:33:13 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/30 18:54:37 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:58:21 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char		*ft_utoa(unsigned long long n);
 char		*c_perc(t_strlst **out_lst);
 char		*c_str(char *next_var, t_strlst **out_lst, char *flags, size_t *wid_prec);
 char		*c_char(int next_var, t_strlst **out_lst, char *flags, size_t *wid_prec);
-char		*c_int(int next_var, t_strlst **out_lst);
+char		*c_int(int next_var, t_strlst **out_lst, char *flags, size_t *wid_prec);
 char		*c_uint(unsigned long long next_var, t_strlst **out_lst);
 char		*c_hexup(unsigned long long next_var, t_strlst **out_lst);
 char		*c_hexlo(unsigned long long next_var, t_strlst **out_lst);
@@ -49,5 +49,6 @@ char		*c_ptr(void *next_var, t_strlst **out_lst);
 /*	BONUS FUNCTIONS	*/
 void	flag_finder(char *start, char *end, char *f_flags, size_t *wid_prec);
 char	*app_flags_cs(char *conv_str, char *flags, size_t *wid_prec, size_t *l);
+char	*app_flags_di(char *conv_str, char *flags, size_t *wid_prec, size_t *l);
 
 #endif // FT_PRINTF_H

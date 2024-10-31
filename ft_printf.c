@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:53:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/30 19:44:56 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:59:21 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	*format_parser(char *f_ptr, va_list f_va, t_strlst **out_lst, char *str_sta
 	else if (*flags == 's')
 		checker = c_str(va_arg(f_va, char *), out_lst, flags, wid_prec);
 	else if (*flags == 'd' || *flags == 'i')
-		checker = c_int(va_arg(f_va, int), out_lst);
+		checker = c_int(va_arg(f_va, int), out_lst, flags, wid_prec);
 	else if (*flags == 'u')
 		checker = c_uint(va_arg(f_va, unsigned int), out_lst);
 	else if (*flags == 'p')

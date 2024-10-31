@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:56:29 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/30 17:34:16 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:00:24 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ t_strlst	*add_str_to_list(char *str_start, t_strlst **out_lst, int len)
 	t_strlst	*next_node;
 	t_strlst	*last_node;
 
+	if (!str_start)
+		return (NULL);
 	next_node = create_out_node(str_start, len);
 	if (!next_node)
 		return (NULL);
