@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf_appf_cs_bonus.c                             :+:      :+:    :+:   */
+/*   printf_appf_cs_bonus.c                              :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 16:54:01 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/31 19:58:48 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/11/01 14:45:23 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,44 @@
 #include "ft_printf.h"
 #include <stdlib.h>
 
+// The following function manages the application of flags/width 
+// to formatted %i and %d variables.
+// flags map:		"f0.-# +"
+// ind map:		"0123456"
+// used:		"-+++-++"
+// wid_prec[0] - width, wid_prec[1] - precision ('.')
+
 char	*sign_applier(char *conv_str, size_t *l, char *flags)
 {
 	char	*mod_str;
 	char	sign;
+	size_t	i;
 	
 	sign = 0;
-	if (flags[5] == ' ' && conv_str[0] != '-' && flags[6] != '+')
-		sign = ' ';
-	if (flags[6] == '+' && conv_str[0] != '-')
-		sign = '+';
-	if (sign)
+	if (flags[3] == '-')
 	{
+		if (flags[5] == ' ' && conv_str[0] != '-' && flags[6] != '+')
+			sign = ' ';
+		if (flags[6] == '+' && conv_str[0] != '-')
+			sign = '+';
 		mod_str = (char *) malloc((*l + 2) * sizeof(char));
 		if (!mod_str)
 			return (NULL);
+	}
+	else if (flags[1] == '0')
+	{
+		while(conv_str[i] == 0)
+			i++;
+		if (conv_str[i] == '-')
+		{
+			conv_str[0] = '-';
+			conv_str[i] = '0';
+		}
+	}
+	else if (flags[5] == 
+	
+	if (sign)
+	{
 		mod_str[0] = sign;
 		ft_memcpy(mod_str + 1, conv_str, *l);
 		free(conv_str);
@@ -80,15 +103,15 @@ char	*width_padder(size_t new_len, size_t *l, char *mod_str, char *flags)
 
 // The following function manage the application of flags/width 
 // to formatted %s and %c variables.
-// flags map:	"f0.-# +"
+// flags map:		"f0.-# +"
 // ind map:		"0123456"
 // used:		"---+---"
 // wid_prec[0] - width, wid_prec[1] - precision ('.')
 
 
-// The following function manage the application of flags/width 
+// The following function manages the application of flags/width 
 // to formatted %i and %d variables.
-// flags map:	"f0.-# +"
+// flags map:		"f0.-# +"
 // ind map:		"0123456"
 // used:		"-+++-++"
 // wid_prec[0] - width, wid_prec[1] - precision ('.')
@@ -100,6 +123,7 @@ char	*app_flags_di(char *conv_str, char *flags, size_t *wid_prec, size_t *l)
 	size_t	len_tstr;
 	char	sign_box;
 
+	sign_box = 0;
 	len_tstr = *l - (*conv_str == '-');
 	mod_str = sign_applier(conv_str, l, flags);
 	if (!mod_str)
@@ -108,14 +132,6 @@ char	*app_flags_di(char *conv_str, char *flags, size_t *wid_prec, size_t *l)
 		padded_str = width_padder(wid_prec[0], l, mod_str, flags);
 	else
 		padded_str = width_padder(*l, l, mod_str, flags);
-	if (flags[2] == '.')
-	{
-		printf("len_tstr: %zu\n", len_tstr);
-		if (wid_prec[1] > len_tstr)
-			if (wid_prec[1] < wid_prec[0])
-				sig
-				printf("cinfusion\n");
-	}
 	if (!padded_str)
 		return (NULL);
 	return (padded_str);
