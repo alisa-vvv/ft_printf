@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:47:44 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/02 17:11:57 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/05 17:46:38 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include "ft_printf.h"
 
-void	flag_finder(char *start, char *end, char *f_flags, size_t *wid_prec)
+void	flag_finder(char *start, char *end, char *f_flags, ssize_t *wid_prec)
 {
 	char	*flags;
 	char	*tmp_start;

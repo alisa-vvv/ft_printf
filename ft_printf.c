@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_printf.c                                         :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:53:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/31 16:59:21 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/11/05 20:00:36 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	final_gigastring_out(t_strlst **out_lst)
 	return (total_len);
 }
 
-char	*conv_chooser(char *format, int *spec_len, size_t *wid_prec)
+char	*conv_chooser(char *format, int *spec_len, ssize_t *wid_prec)
 {
 	char		*found_flags;
 	char		*spec_start;
@@ -65,11 +65,13 @@ char	*format_parser(char *f_ptr, va_list f_va, t_strlst **out_lst, char *str_sta
 	int				spec_len;
 	char			*flags;
 	char			*checker;
-	size_t			wid_prec[2];
+	ssize_t			wid_prec[2];
+	int			out_error_overwrite;
 	
 	spec_len = 0;
 	wid_prec[0] = 0;
 	wid_prec[1] = 0;
+	out_error_overwrite = 0;
 	flags = conv_chooser(f_ptr + 1, &spec_len, wid_prec);
 	if (*str_start != '%' && *str_start != '\0')
 	{
@@ -96,6 +98,8 @@ char	*format_parser(char *f_ptr, va_list f_va, t_strlst **out_lst, char *str_sta
 		checker = c_hexlo(va_arg(f_va, unsigned int), out_lst);
 	else if (*flags == 'X')
 		checker = c_hexup(va_arg(f_va, unsigned int), out_lst);
+	else
+		out_error_overwrite = -1;
 	// Maybe add another else check for when specifier is incorrect? to print the string anyway
 	free(flags); // THIS IS TEMP, REPLACE FOR LIST CLEARING LATER
 	if (!checker)

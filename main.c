@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:36:37 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/04 20:57:49 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/05 20:09:48 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@
 int	main(void)
 {
 	printf("\nprintf:\n");
-	printf("return val: %d\n", printf("(%+0.10i)\n", 12345));
+	printf("return val: %d\n", printf("%5.1i", 0));
 	printf("\nft_printf:\n");
-	printf("return val: %d\n", ft_printf("(%+0.10i)\n", 12345));
-	// if pec <= wid 6 - (4 - 3) = wid_prec[0] - (wid_prec[1] - len(w/o sign)) = 1 (count of zeroes)
+	printf("return val: %d\n", ft_printf("%5.1i", 0));
 	printf("\n");
 }

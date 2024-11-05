@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:33:13 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/02 17:09:14 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/05 18:05:43 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FT_PRINTF_H
 
 # include <stddef.h>
+# include <stdio.h>
 # include "libft/libft.h"
 
 typedef struct printf_lst
@@ -38,18 +39,18 @@ void		clr_lst(t_strlst **out_lst);
 /*	CONVERSION FUNCTIONS	*/
 char		*ft_utoa(unsigned long long n);
 char		*c_perc(t_strlst **out_lst);
-char		*c_str(char *next_var, t_strlst **out_lst, char *flags, size_t *wid_prec);
-char		*c_char(int next_var, t_strlst **out_lst, char *flags, size_t *wid_prec);
-char		*c_int(int next_var, t_strlst **out_lst, char *flags, size_t *wid_prec);
+char		*c_str(char *next_var, t_strlst **out_lst, char *flags, ssize_t *wid_prec);
+char		*c_char(int next_var, t_strlst **out_lst, char *flags, ssize_t *wid_prec);
+char		*c_int(int next_var, t_strlst **out_lst, char *flags, ssize_t *wid_prec);
 char		*c_uint(unsigned long long next_var, t_strlst **out_lst);
 char		*c_hexup(unsigned long long next_var, t_strlst **out_lst);
 char		*c_hexlo(unsigned long long next_var, t_strlst **out_lst);
 char		*c_ptr(void *next_var, t_strlst **out_lst);
 
 /*	BONUS FUNCTIONS	*/
-void	flag_finder(char *start, char *end, char *f_flags, size_t *wid_prec);
-void	wid_spec_finder(char *start, char *end, char *f_flags, size_t *wid_prec);
-char	*app_flags_cs(char *conv_str, char *flags, size_t *wid_prec, size_t *l);
-char	*app_flags_di(char *conv_str, char *flags, size_t *wid_prec, size_t *l);
+void	flag_finder(char *start, char *end, char *f_flags, ssize_t *wid_prec);
+void	wid_spec_finder(char *start, char *end, char *f_flags, ssize_t *wid_prec);
+char	*app_flags_cs(char *conv_str, char *flags, ssize_t *wid_prec, ssize_t *l);
+char	*app_flags_di(char *conv_str, char *flags, ssize_t *wid_prec, ssize_t *l);
 
 #endif // FT_PRINTF_H

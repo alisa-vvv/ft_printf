@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 13:03:35 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/04 17:56:59 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/05 20:01:18 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,30 @@
 // The resulting strings are passed to add_str_to_list for writing later;
 // Return is either NULL or the ptr to converted string for error-checking.
 
-char	*c_str(char *next_var, t_strlst **out_lst, char *flags, size_t *wid_prec)
+char	*c_str(char *next_var, t_strlst **out_lst, char *flags, ssize_t *wid_prec)
 {
 	char	*conv_str;
-	size_t	str_len;
+	ssize_t	str_len;
 
 	if (!next_var)
 	{
-		conv_str = ft_strdup("(null)");
+		if (flags[2] == '.' && wid_prec[1] < 6)
+		{
+			conv_str = ft_strdup("");
+			str_len = 0;
+		}
+		else
+		{
+			conv_str = ft_strdup("(null)");
+			str_len = ft_strlen(conv_str);
+		}
 		if (!conv_str)
 			return (NULL);
-		str_len = ft_strlen(conv_str);
-		if (flags[2] == '.' && wid_prec[1] < str_len)
-			str_len = wid_prec[1];
+	}
+	else if (*next_var == '\0')
+	{
+		conv_str = ft_strdup("");
+		str_len = 0;
 	}
 	else
 	{
@@ -42,7 +53,8 @@ char	*c_str(char *next_var, t_strlst **out_lst, char *flags, size_t *wid_prec)
 		conv_str = (char *) malloc(sizeof(char) * (str_len + 1));
 		if (!conv_str)
 			return (NULL);
-		ft_memcpy(conv_str, next_var, str_len + 1);
+		ft_memcpy(conv_str, next_var, str_len);
+		conv_str[str_len] = '\0';
 	}
 	conv_str = app_flags_cs(conv_str, flags, wid_prec, &str_len);
 	if (!add_str_to_list(conv_str, out_lst, str_len))
@@ -64,10 +76,10 @@ char	*c_perc(t_strlst **out_lst)
 	return (conv_str);
 }
 
-char	*c_char(int next_var, t_strlst **out_lst, char *flags, size_t *wid_prec)
+char	*c_char(int next_var, t_strlst **out_lst, char *flags, ssize_t *wid_prec)
 {
 	char	*conv_str;
-	size_t	str_len;
+	ssize_t	str_len;
 
 	conv_str = (char *)malloc (sizeof(char) * 2);
 	if (!conv_str)
@@ -81,10 +93,10 @@ char	*c_char(int next_var, t_strlst **out_lst, char *flags, size_t *wid_prec)
 	return (conv_str);
 }
 
-char	*c_int(int next_var, t_strlst **out_lst, char *flags, size_t *wid_prec)
+char	*c_int(int next_var, t_strlst **out_lst, char *flags, ssize_t *wid_prec)
 {
 	char	*conv_str;
-	size_t	str_len;
+	ssize_t	str_len;
 
 	conv_str = ft_itoa(next_var);
 	if (!conv_str)
