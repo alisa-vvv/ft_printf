@@ -6,7 +6,7 @@
 #    By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 12:39:24 by avaliull          #+#    #+#              #
-#    Updated: 2024/11/02 17:11:06 by avaliull       ########   odam.nl         #
+#    Updated: 2024/11/06 19:35:47 by avaliull       ########   odam.nl         #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ CFILES	=	ft_printf.c\
 			printf_conv_pxx.c\
 			printf_flags_bonus.c\
 			printf_count_wid_prec_bonus.c\
+			printf_app_wid_bonus.c\
+			printf_app_prec_sign_bonus.c\
 			printf_appf_cs_bonus.c
 
 OFILES	= $(CFILES:.c=.o)

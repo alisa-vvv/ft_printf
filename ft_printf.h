@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:33:13 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/05 18:05:43 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/06 19:34:36 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,9 @@ void	flag_finder(char *start, char *end, char *f_flags, ssize_t *wid_prec);
 void	wid_spec_finder(char *start, char *end, char *f_flags, ssize_t *wid_prec);
 char	*app_flags_cs(char *conv_str, char *flags, ssize_t *wid_prec, ssize_t *l);
 char	*app_flags_di(char *conv_str, char *flags, ssize_t *wid_prec, ssize_t *l);
+char	*app_wid(char *conv_str, size_t pad_c, ssize_t *l, char *flags);
+char	check_sign(char *str, char *flags);
+char	*app_prec(char *conv_str, size_t zeroes_to_add, ssize_t *l, char neg);
+char	*app_sign(char *conv_str, ssize_t *l, char sign);
 
 #endif // FT_PRINTF_H
