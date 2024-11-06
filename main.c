@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:36:37 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/05 20:09:48 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/06 18:59:17 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 int	main(void)
 {
 	printf("\nprintf:\n");
-	printf("return val: %d\n", printf("%5.1i", 0));
+	printf("return val: %d\n", printf("%.0s", NULL));
 	printf("\nft_printf:\n");
-	printf("return val: %d\n", ft_printf("%5.1i", 0));
+	printf("return val: %d\n", ft_printf("%.0s", NULL));
 	printf("\n");
 }

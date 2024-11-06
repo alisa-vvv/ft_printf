@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 16:54:01 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/05 20:13:01 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/06 19:04:01 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,14 +159,14 @@ char	*app_flags_di(char *str, char *flags, ssize_t *wid_prec, ssize_t *l)
 	
 	sign = check_sign(str, flags);
 	neg = (str[0] == '-');
-	if (!wid_prec[0] && !wid_prec[1] && (!sign || neg))
-		return (str);
-	if (wid_prec[1] == -1 && str[0] == '0')
+	if (wid_prec[1] <= 0 && str[0] == '0' && flags[2] == '.')
 	{
 		free(str);
 		str = ft_strdup("");
 		*l = 0;
 	}	
+	else if (!wid_prec[0] && !wid_prec[1] && (!sign || neg))
+		return (str);
 	if (wid_prec[1] && wid_prec[1] > *l - neg)
 		str = app_prec(str, wid_prec[1] - (*l - neg), l, neg);
 	if (wid_prec[0] && wid_prec[0] > *l + (sign != 0) - (str[0] == '-'))
@@ -191,7 +191,7 @@ char	*app_flags_cs(char *conv_str, char *flags, ssize_t *wid_prec, ssize_t *l)
 {
 	char	*modified_str;
 	ssize_t	new_len;
-	
+
 	if (wid_prec[0] > *l)
 	{
 		new_len = wid_prec[0];
