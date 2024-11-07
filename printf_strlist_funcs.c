@@ -1,22 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf_strlist_funcs.c                             :+:      :+:    :+:   */
+/*   printf_strlist_funcs.c                              :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:56:29 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/31 17:00:24 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/11/07 17:10:23 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <unistd.h>
 #include <stdlib.h>
 
 // The following functions manage: 
 //	- creation of new strings from format string;
 //	- adding formatted (created) strings to the list of all strings;
-//	- clearing the list in case of an allocation error.
+//	- printing and clearing the list on error or success
+
+int	final_gigastring_out(t_strlst **out_lst)
+{
+	t_strlst	*current_node;
+	int			total_len;
+
+	total_len = 0;
+	current_node = *out_lst;
+	while (current_node != NULL)
+	{
+		if (write(1, current_node->string, current_node->size) == -1)
+		{
+			total_len = -1;
+			break ;
+		}
+		total_len += current_node->size;
+		current_node = current_node->next;
+	}
+	clr_lst(out_lst);
+	return (total_len);
+}
 
 void	clr_lst(t_strlst **out_lst)
 {

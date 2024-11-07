@@ -6,14 +6,15 @@
 #    By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 12:39:24 by avaliull          #+#    #+#              #
-#    Updated: 2024/11/06 19:35:47 by avaliull       ########   odam.nl         #
+#    Updated: 2024/11/07 13:10:57 by avaliull       ########   odam.nl         #
 #                                                                              #
 # **************************************************************************** #
 
 CFILES	=	ft_printf.c\
 			printf_strlist_funcs.c\
 			ft_utoa.c\
-			printf_conv_scidu.c\
+			printf_conv_str.c\
+			printf_conv_cidu.c\
 			printf_conv_pxx.c\
 			printf_flags_bonus.c\
 			printf_count_wid_prec_bonus.c\
