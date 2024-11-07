@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf_flags_bonus.c                                :+:    :+:           */
+/*   printf_flags_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:47:44 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/05 17:46:38 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/07 19:44:32 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
 #include "ft_printf.h"
 
-void	flag_finder(char *start, char *end, char *f_flags, ssize_t *wid_prec)
+void	flag_finder(char *start, char *end, char *f_flags, ssize_t *w_p)
 {
 	char	*flags;
 	char	*tmp_start;
@@ -22,7 +20,7 @@ void	flag_finder(char *start, char *end, char *f_flags, ssize_t *wid_prec)
 
 	flags = "-# +";
 	tmp_start = start;
-	wid_spec_finder(start, end, f_flags, wid_prec);
+	w_s_finder(start, end, f_flags, w_p);
 	i = 0;
 	while (i < 4)
 	{

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                         ::::::::           */
-/*   printf_app_prec_sign_bonus.c                        :+:    :+:           */
-/*                                                      +:+                   */
-/*   By: avaliull <marvin@42.fr>                       +#+                    */
-/*                                                    +#+                     */
-/*   Created: 2024/11/06 19:33:17 by avaliull       #+#    #+#                */
-/*   Updated: 2024/11/07 17:46:17 by avaliull       ########   odam.nl        */
+/*                                                        :::      ::::::::   */
+/*   printf_app_prec_sign_bonus.c                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/06 19:33:17 by avaliull          #+#    #+#             */
+/*   Updated: 2024/11/07 19:44:32 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	check_sign(char *str, char *flags)
 	return (0);
 }
 
-char	*app_prec(char *conv_str, size_t zeroes_to_add, ssize_t *l, char neg)
+char	*app_prec(char *conv_str, size_t zero_count, ssize_t *l, char neg)
 {
 	char	*prec_str;
 	size_t	i;
@@ -32,11 +32,11 @@ char	*app_prec(char *conv_str, size_t zeroes_to_add, ssize_t *l, char neg)
 	if (!conv_str)
 		return (NULL);
 	i = 0;
-	prec_str = (char *) malloc((*l - neg) + zeroes_to_add + 1);
-	while (zeroes_to_add)
+	prec_str = (char *) malloc((*l - neg) + zero_count + 1);
+	while (zero_count)
 	{
 		prec_str[i] = '0';
-		zeroes_to_add--;
+		zero_count--;
 		i++;
 	}
 	ft_memcpy(&prec_str[i], conv_str + neg, *l + 1 - neg);

@@ -1,24 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf_appf_cs_bonus.c                              :+:    :+:           */
+/*   printf_appf_cs_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 16:54:01 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/06 19:54:25 by avaliull       ########   odam.nl        */
+/*   Created: 2024/11/07 19:49:47 by avaliull          #+#    #+#             */
+/*   Updated: 2024/11/07 19:52:05 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdlib.h>
-
-// The following function manages the application of flags/width 
-// to formatted %i and %d variables.
-// flags map:		"f0.-# +"
-// ind map:		"0123456"
-// used:		"-+++-++"
-// wid_prec[0] - width, wid_prec[1] - precision ('.')
 
 static char	*prec_zero(char *orig_str, ssize_t *l)
 {
@@ -32,7 +25,13 @@ static char	*prec_zero(char *orig_str, ssize_t *l)
 	return (str);
 }
 
-char	*app_flags_di(char *str, char *flags, ssize_t *wid_prec, ssize_t *l)
+// The following function manages the application of flags/width 
+// to formatted %i and %d variables.
+// flags map:		"f0.-# +"
+// ind map:			"0123456"
+// used:			"-+++-++"
+// w_p[0] - width, w_p[1] - precision ('.')
+char	*appf_di(char *str, char *flags, ssize_t *w_p, ssize_t *l)
 {
 	char	neg;
 	char	sign;
@@ -40,18 +39,18 @@ char	*app_flags_di(char *str, char *flags, ssize_t *wid_prec, ssize_t *l)
 
 	sign = check_sign(str, flags);
 	neg = (str[0] == '-');
-	if (wid_prec[1] <= 0 && str[0] == '0' && flags[2] == '.')
+	if (w_p[1] <= 0 && str[0] == '0' && flags[2] == '.')
 		str = prec_zero(str, l);
-	else if (!wid_prec[0] && !wid_prec[1] && (!sign || neg))
+	else if (!w_p[0] && !w_p[1] && (!sign || neg))
 		return (str);
-	if (str != NULL && wid_prec[1] && wid_prec[1] > *l - neg)
-		str = app_prec(str, wid_prec[1] - (*l - neg), l, neg);
-	if (str != NULL && wid_prec[0]
-		&& wid_prec[0] > *l + (sign != 0) - (str[0] == '-'))
+	if (str != NULL && w_p[1] && w_p[1] > *l - neg)
+		str = app_prec(str, w_p[1] - (*l - neg), l, neg);
+	if (str != NULL && w_p[0]
+		&& w_p[0] > *l + (sign != 0) - (str[0] == '-'))
 	{
 		if (str[0] == '-')
 			(*l)--;
-		pad_c = wid_prec[0] - *l - (sign != 0);
+		pad_c = w_p[0] - *l - (sign != 0);
 		str = app_wid(str, pad_c, l, flags);
 	}
 	if (str != NULL && sign && *str != '-')
@@ -62,17 +61,17 @@ char	*app_flags_di(char *str, char *flags, ssize_t *wid_prec, ssize_t *l)
 // The following function manage the application of flags/width 
 // to formatted %s and %c variables.
 // flags map:		"f0.-# +"
-// ind map:		"0123456"
-// used:		"--++---"
-// wid_prec[0] - width, wid_prec[1] - precision ('.')
-char	*app_flags_cs(char *conv_str, char *flags, ssize_t *wid_prec, ssize_t *l)
+// ind map:			"0123456"
+// used:			"--++---"
+// w_p[0] - width, w_p[1] - precision ('.')
+char	*appf_cs(char *conv_str, char *flags, ssize_t *w_p, ssize_t *l)
 {
 	char	*modified_str;
 	ssize_t	new_len;
 
-	if (wid_prec[0] > *l)
+	if (w_p[0] > *l)
 	{
-		new_len = wid_prec[0];
+		new_len = w_p[0];
 		modified_str = (char *) malloc ((new_len + 1) * sizeof(char));
 		if (!modified_str)
 			return (NULL);

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                         ::::::::           */
-/*   printf_count_wid_prec_bonus.c                       :+:    :+:           */
+/*   printf_count_w_p_bonus.c                       :+:    :+:           */
 /*                                                      +:+                   */
 /*   By: avaliull <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
@@ -10,24 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
 #include "ft_printf.h"
 
-static char	*num_read(ssize_t *wid_prec, char *start, char *end, int i)
+static char	*num_read(ssize_t *w_p, char *start, char *end, int i)
 {
 	while (start != end)
 	{
-		if (wid_prec[i] == -1)
-			wid_prec[i] = 0;
-		wid_prec[i] = wid_prec[i] * 10 + *start - 48;
+		if (w_p[i] == -1)
+			w_p[i] = 0;
+		w_p[i] = w_p[i] * 10 + *start - 48;
 		start++;
 	}
-	wid_prec[i] = wid_prec[i] * 10 + *start - 48;
+	w_p[i] = w_p[i] * 10 + *start - 48;
 	return (start);
 }
 
-static char	*num_finder(ssize_t *wid_prec, char *start, char *end, int i)
+static char	*num_finder(ssize_t *w_p, char *start, char *end, int i)
 {
 	char	*num_end;
 	char	*tmp_ptr;
@@ -42,7 +40,7 @@ static char	*num_finder(ssize_t *wid_prec, char *start, char *end, int i)
 				num_end = tmp_ptr;
 				tmp_ptr++;
 			}
-			tmp_ptr = num_read(wid_prec, start, num_end, i);
+			tmp_ptr = num_read(w_p, start, num_end, i);
 			break ;
 		}
 		tmp_ptr++;
@@ -50,7 +48,7 @@ static char	*num_finder(ssize_t *wid_prec, char *start, char *end, int i)
 	return (tmp_ptr);
 }
 
-static char	*wid_counter(ssize_t *wid_prec, char *start, char *end, int i)
+static char	*wid_counter(ssize_t *w_p, char *start, char *end, int i)
 {
 	char	*num_end;
 	char	*tmp_ptr;
@@ -68,7 +66,7 @@ static char	*wid_counter(ssize_t *wid_prec, char *start, char *end, int i)
 				num_end = tmp_ptr;
 				tmp_ptr++;
 			}
-			start = num_read(wid_prec, start, num_end, i);
+			start = num_read(w_p, start, num_end, i);
 			break ;
 		}
 		tmp_ptr++;
@@ -76,16 +74,16 @@ static char	*wid_counter(ssize_t *wid_prec, char *start, char *end, int i)
 	return (tmp_ptr);
 }
 
-static void	spec_finder(char *start, char *end, char *flags, ssize_t *wid_prec)
+static void	spec_finder(char *start, char *end, char *flags, ssize_t *w_p)
 {
 	while (start != end)
 	{
 		if (*start == '.')
 		{
 			if (!ft_isdigit(*(start + 1)))
-				wid_prec[1] = -1;
+				w_p[1] = -1;
 			else
-				num_finder(wid_prec, start + 1, end, 1);
+				num_finder(w_p, start + 1, end, 1);
 			flags[2] = '.';
 			return ;
 		}
@@ -93,23 +91,23 @@ static void	spec_finder(char *start, char *end, char *flags, ssize_t *wid_prec)
 	}
 }
 
-void	wid_spec_finder(char *start, char *end, char *f_flags, ssize_t *wid_prec)
+void	w_s_finder(char *start, char *end, char *f_flags, ssize_t *w_p)
 {
 	while (start != end && *start != '.')
 	{
 		if (*start == '0')
 		{
-			start = wid_counter(wid_prec, start + 1, end, 0);
+			start = wid_counter(w_p, start + 1, end, 0);
 			f_flags[1] = '0';
 			break ;
 		}
 		else if (ft_isdigit(*start))
 		{
-			start = num_finder(wid_prec, start, end, 0);
+			start = num_finder(w_p, start, end, 0);
 			start++;
 			break ;
 		}
 		start++;
 	}
-	spec_finder(start, end, f_flags, wid_prec);
+	spec_finder(start, end, f_flags, w_p);
 }

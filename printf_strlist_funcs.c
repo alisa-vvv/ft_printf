@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf_strlist_funcs.c                              :+:    :+:           */
+/*   printf_strlist_funcs.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:56:29 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/07 18:01:27 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/07 19:44:32 by avaliull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <unistd.h>
 #include <stdlib.h>
 
 // The following functions manage: 
@@ -19,9 +18,9 @@
 //	- adding formatted (created) strings to the list of all strings;
 //	- printing and clearing the list on error or success
 
-static void	clr_lst(t_strlst **out_lst)
+static void	clr_lst(t_plst **out_lst)
 {
-	t_strlst	*next_node;
+	t_plst	*next_node;
 
 	while (*out_lst != NULL)
 	{
@@ -32,10 +31,10 @@ static void	clr_lst(t_strlst **out_lst)
 	}
 }
 
-int	final_gigastring_out(t_strlst **out_lst, int err_ovrr)
+int	final_gigastring_out(t_plst **out_lst, int err_ovrr)
 {
-	t_strlst	*current_node;
-	int			total_len;
+	t_plst	*current_node;
+	int		total_len;
 
 	total_len = 0;
 	current_node = *out_lst;
@@ -55,11 +54,11 @@ int	final_gigastring_out(t_strlst **out_lst, int err_ovrr)
 	return (total_len);
 }
 
-t_strlst	*create_out_node(char *str_start, int len)
+static t_plst	*create_out_node(char *str_start, int len)
 {
-	t_strlst	*new_node;
+	t_plst	*new_node;
 
-	new_node = (t_strlst *) malloc(sizeof(t_strlst));
+	new_node = (t_plst *) malloc(sizeof(t_plst));
 	if (!new_node)
 		return (NULL);
 	new_node->string = str_start;
@@ -68,10 +67,10 @@ t_strlst	*create_out_node(char *str_start, int len)
 	return (new_node);
 }
 
-t_strlst	*add_str_to_list(char *str_start, t_strlst **out_lst, int len)
+t_plst	*add_str_to_list(char *str_start, t_plst **out_lst, int len)
 {
-	t_strlst	*next_node;
-	t_strlst	*last_node;
+	t_plst	*next_node;
+	t_plst	*last_node;
 
 	if (!str_start)
 		return (NULL);
@@ -90,7 +89,7 @@ t_strlst	*add_str_to_list(char *str_start, t_strlst **out_lst, int len)
 	return (*out_lst);
 }
 
-char	*new_str(char *format, int spec_len, char *start, t_strlst **out_lst)
+char	*new_str(char *format, int spec_len, char *start, t_plst **out_lst)
 {
 	char	*new_str;
 
