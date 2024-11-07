@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 13:03:35 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/07 13:46:59 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/07 18:12:25 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*c_perc(t_strlst **out_lst)
 	return (conv_str);
 }
 
-char	*c_char(int next_var, t_strlst **out_lst, char *flags, ssize_t *wid_prec)
+char	*c_char(int var, t_strlst **out_lst, char *flags, ssize_t *wid_prec)
 {
 	char	*conv_str;
 	ssize_t	str_len;
@@ -42,7 +42,7 @@ char	*c_char(int next_var, t_strlst **out_lst, char *flags, ssize_t *wid_prec)
 	conv_str = (char *)malloc (sizeof(char) * 2);
 	if (!conv_str)
 		return (NULL);
-	conv_str[0] = (char)next_var;
+	conv_str[0] = (char)var;
 	conv_str[1] = '\0';
 	str_len = 1;
 	conv_str = app_flags_cs(conv_str, flags, wid_prec, &str_len);
@@ -51,12 +51,12 @@ char	*c_char(int next_var, t_strlst **out_lst, char *flags, ssize_t *wid_prec)
 	return (conv_str);
 }
 
-char	*c_int(int next_var, t_strlst **out_lst, char *flags, ssize_t *wid_prec)
+char	*c_int(int var, t_strlst **out_lst, char *flags, ssize_t *wid_prec)
 {
 	char	*conv_str;
 	ssize_t	str_len;
 
-	conv_str = ft_itoa(next_var);
+	conv_str = ft_itoa(var);
 	if (!conv_str)
 		return (NULL);
 	str_len = ft_strlen(conv_str);
@@ -66,12 +66,14 @@ char	*c_int(int next_var, t_strlst **out_lst, char *flags, ssize_t *wid_prec)
 	return (conv_str);
 }
 
-char	*c_uint(unsigned long long next_var, t_strlst **out_lst) // VAR for +/' ' (sign), VAR for 0/- (just), VAR for width
+// VAR for +/' ' (sign), VAR for 0/- (just), VAR for width
+
+char	*c_uint(unsigned long long var, t_strlst **out_lst)
 {
 	char	*conv_str;
 	int		str_len;
 
-	conv_str = ft_utoa(next_var);
+	conv_str = ft_utoa(var);
 	if (!conv_str)
 		return (NULL);
 	str_len = ft_strlen(conv_str);

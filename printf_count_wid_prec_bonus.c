@@ -6,7 +6,7 @@
 /*   By: avaliull <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/02 17:07:32 by avaliull       #+#    #+#                */
-/*   Updated: 2024/11/05 18:27:42 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/07 18:00:08 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 #include "ft_printf.h"
 
-static char *num_read(ssize_t *wid_prec, char *start, char *end, int i)
+static char	*num_read(ssize_t *wid_prec, char *start, char *end, int i)
 {
-	while(start != end)
+	while (start != end)
 	{
 		if (wid_prec[i] == -1)
 			wid_prec[i] = 0;
@@ -33,18 +33,18 @@ static char	*num_finder(ssize_t *wid_prec, char *start, char *end, int i)
 	char	*tmp_ptr;
 
 	tmp_ptr = start;
-	while(tmp_ptr != end)
+	while (tmp_ptr != end)
 	{
 		if (ft_isdigit(*tmp_ptr))
+		{
+			while (tmp_ptr != end && ft_isdigit(*tmp_ptr))
 			{
-				while (tmp_ptr != end && ft_isdigit(*tmp_ptr))
-				{
-					num_end = tmp_ptr;
-					tmp_ptr++;
-				}
-				tmp_ptr = num_read(wid_prec, start, num_end, i);
-				break ;
+				num_end = tmp_ptr;
+				tmp_ptr++;
 			}
+			tmp_ptr = num_read(wid_prec, start, num_end, i);
+			break ;
+		}
 		tmp_ptr++;
 	}
 	return (tmp_ptr);
@@ -55,22 +55,22 @@ static char	*wid_counter(ssize_t *wid_prec, char *start, char *end, int i)
 	char	*num_end;
 	char	*tmp_ptr;
 
-	while ((*start == '+' || *start == '-' || *start == '#' ||
-	*start == ' ') && *start != '.')
-			start++;
+	while ((*start == '+' || *start == '-' || *start == '#'
+			|| *start == ' ') && *start != '.')
+		start++;
 	tmp_ptr = start;
-	while(tmp_ptr != end && *tmp_ptr != '.')
+	while (tmp_ptr != end && *tmp_ptr != '.')
 	{
 		if (ft_isdigit(*tmp_ptr))
+		{
+			while (tmp_ptr != end && ft_isdigit(*tmp_ptr))
 			{
-				while (tmp_ptr != end && ft_isdigit(*tmp_ptr))
-				{
-					num_end = tmp_ptr;
-					tmp_ptr++;
-				}
-				start = num_read(wid_prec, start, num_end, i);
-				break ;
+				num_end = tmp_ptr;
+				tmp_ptr++;
 			}
+			start = num_read(wid_prec, start, num_end, i);
+			break ;
+		}
 		tmp_ptr++;
 	}
 	return (tmp_ptr);
@@ -98,7 +98,7 @@ void	wid_spec_finder(char *start, char *end, char *f_flags, ssize_t *wid_prec)
 	while (start != end && *start != '.')
 	{
 		if (*start == '0')
-		{	
+		{
 			start = wid_counter(wid_prec, start + 1, end, 0);
 			f_flags[1] = '0';
 			break ;
@@ -113,4 +113,3 @@ void	wid_spec_finder(char *start, char *end, char *f_flags, ssize_t *wid_prec)
 	}
 	spec_finder(start, end, f_flags, wid_prec);
 }
-

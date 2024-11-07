@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf_conv_pxx.c                                  :+:      :+:    :+:   */
+/*   printf_conv_pxx.c                                   :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:43:45 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/30 17:36:09 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/11/07 18:13:34 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,40 +58,46 @@ static char	*to_hex(unsigned long long n, char *symbols, int *len)
 	return (conv_str);
 }
 
-char	*c_hexup(unsigned long long next_var, t_strlst **out_lst) // VAR for 0/- (pad), VAR for width, VAR for # (mod), VAR for +/' ' (sign)
+// VAR for 0/- (pad), VAR for width, VAR for # (mod), VAR for +/' ' (sign)
+
+char	*c_hexup(unsigned long long var, t_strlst **out_lst)
 {
 	char			*conv_str;
 	int				len;
 
 	len = 0;
-	conv_str = to_hex(next_var, "0123456789ABCDEF", &len);
+	conv_str = to_hex(var, "0123456789ABCDEF", &len);
 	if (!conv_str)
 		return (NULL);
 	add_str_to_list(conv_str, out_lst, len);
 	return (conv_str);
 }
 
-char	*c_hexlo(unsigned long long next_var, t_strlst **out_lst) // VAR for 0/- (pad), VAR for width, VAR for # (mod), VAR for +/' ' (sign)
+// VAR for 0/- (pad), VAR for width, VAR for # (mod), VAR for +/' ' (sign)
+
+char	*c_hexlo(unsigned long long var, t_strlst **out_lst)
 {
 	char			*conv_str;
 	int				len;
 
 	len = 0;
-	conv_str = to_hex(next_var, "0123456789abcdef", &len);
+	conv_str = to_hex(var, "0123456789abcdef", &len);
 	if (!conv_str)
 		return (NULL);
 	add_str_to_list(conv_str, out_lst, len);
 	return (conv_str);
 }
 
-char	*c_ptr(void *next_var, t_strlst **out_lst) // VAR for 0/- (pad), VAR for width, VAR for # (mod), VAR for +/' ' (sign)
+// VAR for 0/- (pad), VAR for width, VAR for # (mod), VAR for +/' ' (sign)
+
+char	*c_ptr(void *var, t_strlst **out_lst)
 {
 	char				*conv_str;
 	int					len;
 	unsigned long long	ptr_val;
 
 	len = 2;
-	ptr_val = (unsigned long long)(uintptr_t)next_var;
+	ptr_val = (unsigned long long)(uintptr_t) var;
 	if (!ptr_val)
 	{
 		conv_str = ft_strdup("(nil)");

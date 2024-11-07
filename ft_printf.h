@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:33:13 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/07 13:08:04 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/07 18:11:19 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,22 @@ typedef char *(func_ptr(void *, t_strlst **));
 /*	PRIMARY FUNCTIONS	(these might become static later)*/
 int			ft_printf(const char *format, ...);
 char		*new_str(char *format, int spec_len, char *start, t_strlst **out_lst);
-int			final_gigastring_out(t_strlst **out_lst);
+int			final_gigastring_out(t_strlst **out_lst, int err_ovrr);
 
 /*	LIST MANIPULATION FUNCTIONS	(might also become static in sep. file)*/
 t_strlst	*create_out_node(char *str_start, int len);
 t_strlst	*add_str_to_list(char *str_start, t_strlst **out_lst, int len);
-void		clr_lst(t_strlst **out_lst);
 
 /*	CONVERSION FUNCTIONS	*/
 char		*ft_utoa(unsigned long long n);
 char		*c_perc(t_strlst **out_lst);
-char		*c_str(char *next_var, t_strlst **out_lst, char *flags, ssize_t *wid_prec);
-char		*c_char(int next_var, t_strlst **out_lst, char *flags, ssize_t *wid_prec);
-char		*c_int(int next_var, t_strlst **out_lst, char *flags, ssize_t *wid_prec);
-char		*c_uint(unsigned long long next_var, t_strlst **out_lst);
-char		*c_hexup(unsigned long long next_var, t_strlst **out_lst);
-char		*c_hexlo(unsigned long long next_var, t_strlst **out_lst);
-char		*c_ptr(void *next_var, t_strlst **out_lst);
+char		*c_str(char *var, t_strlst **out_lst, char *flags, ssize_t *wid_prec);
+char		*c_char(int var, t_strlst **out_lst, char *flags, ssize_t *wid_prec);
+char		*c_int(int var, t_strlst **out_lst, char *flags, ssize_t *wid_prec);
+char		*c_uint(unsigned long long var, t_strlst **out_lst);
+char		*c_hexup(unsigned long long var, t_strlst **out_lst);
+char		*c_hexlo(unsigned long long var, t_strlst **out_lst);
+char		*c_ptr(void *var, t_strlst **out_lst);
 
 /*	BONUS FUNCTIONS	*/
 void	flag_finder(char *start, char *end, char *f_flags, ssize_t *wid_prec);

@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:53:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/07 17:08:05 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/07 17:44:28 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,6 @@
 
 //%[flags][width][.precision][length]type
 //%[-+ #0][(number)][.number][letters00]
-
-//int	final_gigastring_out(t_strlst **out_lst)
-//{
-//	t_strlst	*current_node;
-//	int			total_len;
-//
-//	total_len = 0;
-//	current_node = *out_lst;
-//	while (current_node != NULL)
-//	{
-//		if (write(1, current_node->string, current_node->size) == -1)
-//		{
-//			total_len = -1;
-//			break ;
-//		}
-//		total_len += current_node->size;
-//		current_node = current_node->next;
-//	}
-//	clr_lst(out_lst);
-//	return (total_len);
-//}
 
 char	*conv_chooser(char *format, int *spec_len, ssize_t *wid_prec)
 {
@@ -52,8 +31,8 @@ char	*conv_chooser(char *format, int *spec_len, ssize_t *wid_prec)
 	ft_memset(found_flags, '=', 7);
 	*spec_len = 1;
 	while (*format && *format != '%' && *format != 'c' && *format != 's'
-	&& *format != 'd' && *format != 'i' && *format != 'p'
-	&& *format != 'u' && *format != 'x' && *format != 'X')
+		&& *format != 'd' && *format != 'i' && *format != 'p'
+		&& *format != 'u' && *format != 'x' && *format != 'X')
 	{
 		format++;
 		(*spec_len)++;
@@ -88,7 +67,7 @@ char	*format_checker(char *flags, t_strlst **out_lst, va_list f_va, ssize_t *wid
 		checker = NULL;
 	free(flags);
 	if (!checker)
-		clr_lst(out_lst);
+		return (NULL);
 	return (checker);
 }
 
@@ -97,7 +76,7 @@ char	*format_parser(char *f_ptr, va_list f_va, t_strlst **out_lst, char *str_sta
 	int				spec_len;
 	char			*flags;
 	ssize_t			wid_prec[2];
-	
+
 	spec_len = 0;
 	wid_prec[0] = 0;
 	wid_prec[1] = 0;
@@ -107,7 +86,6 @@ char	*format_parser(char *f_ptr, va_list f_va, t_strlst **out_lst, char *str_sta
 		if (!new_str(f_ptr, spec_len, str_start, out_lst))
 		{
 			free(flags);
-			clr_lst(out_lst);
 			return (NULL);
 		}
 	}
@@ -140,17 +118,19 @@ int	ft_printf(const char *format, ...)
 	t_strlst		*out_lst;
 	char			*f_ptr;
 
+	if (!format)
+		return (-1);
 	out_lst = NULL;
 	f_ptr = (char *) format;
 	str_start = f_ptr;
 	va_start(f_va, format);
 	if (spec_finder(&f_ptr, f_va, &out_lst, &str_start) == -1)
-		return (-1);
+		return (final_gigastring_out(&out_lst, -1));
 	va_end(f_va);
 	if (*str_start != '%' && *str_start != '\0')
 	{
 		if (!add_str_to_list(ft_strdup(str_start), &out_lst, f_ptr - str_start))
-			return (-1);
+			return (final_gigastring_out(&out_lst, -1));
 	}
-	return (final_gigastring_out(&out_lst));
+	return (final_gigastring_out(&out_lst, 0));
 }

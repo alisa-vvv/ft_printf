@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                         ::::::::           */
-/*   printf_appf_str_bonus.c                             :+:    :+:           */
+/*   printf_conv_str.c                                   :+:    :+:           */
 /*                                                      +:+                   */
 /*   By: avaliull <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/07 13:02:28 by avaliull       #+#    #+#                */
-/*   Updated: 2024/11/07 13:07:09 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/07 18:14:33 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 static char	*str_not_next_var(char *flags, ssize_t *wid_prec, ssize_t *l)
 {
-	char *conv_str;
-	
+	char	*conv_str;
+
 	if ((flags[2] == '.' && wid_prec[1] < 6))
 	{
 		conv_str = ft_strdup("");
@@ -47,22 +47,22 @@ static char	*str_new(char *var, char *flags, ssize_t *wid_prec, ssize_t *l)
 	return (conv_str);
 }
 
-char	*c_str(char *next_var, t_strlst **out_lst, char *flags, ssize_t *wid_prec)
+char	*c_str(char *var, t_strlst **out_lst, char *flags, ssize_t *wid_prec)
 {
 	char	*conv_str;
 	ssize_t	str_len;
-	
+
 	if (wid_prec[1] == -1)
 		wid_prec[1] = 0;
-	if (!next_var)
+	if (!var)
 		conv_str = str_not_next_var(flags, wid_prec, &str_len);
-	else if (*next_var == '\0')
+	else if (*var == '\0')
 	{
 		conv_str = ft_strdup("");
 		str_len = 0;
 	}
 	else
-		conv_str = str_new(next_var, flags, wid_prec, &str_len);		
+		conv_str = str_new(var, flags, wid_prec, &str_len);
 	if (!conv_str)
 		return (NULL);
 	conv_str = app_flags_cs(conv_str, flags, wid_prec, &str_len);
@@ -70,5 +70,3 @@ char	*c_str(char *next_var, t_strlst **out_lst, char *flags, ssize_t *wid_prec)
 		return (NULL);
 	return (conv_str);
 }
-
-

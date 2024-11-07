@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:56:29 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/07 17:10:23 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/07 18:01:27 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,7 @@
 //	- adding formatted (created) strings to the list of all strings;
 //	- printing and clearing the list on error or success
 
-int	final_gigastring_out(t_strlst **out_lst)
-{
-	t_strlst	*current_node;
-	int			total_len;
-
-	total_len = 0;
-	current_node = *out_lst;
-	while (current_node != NULL)
-	{
-		if (write(1, current_node->string, current_node->size) == -1)
-		{
-			total_len = -1;
-			break ;
-		}
-		total_len += current_node->size;
-		current_node = current_node->next;
-	}
-	clr_lst(out_lst);
-	return (total_len);
-}
-
-void	clr_lst(t_strlst **out_lst)
+static void	clr_lst(t_strlst **out_lst)
 {
 	t_strlst	*next_node;
 
@@ -51,6 +30,29 @@ void	clr_lst(t_strlst **out_lst)
 		free(*out_lst);
 		*out_lst = next_node;
 	}
+}
+
+int	final_gigastring_out(t_strlst **out_lst, int err_ovrr)
+{
+	t_strlst	*current_node;
+	int			total_len;
+
+	total_len = 0;
+	current_node = *out_lst;
+	while (current_node != NULL)
+	{
+		if (write(1, current_node->string, current_node->size) == -1)
+		{
+			err_ovrr = -1;
+			break ;
+		}
+		total_len += current_node->size;
+		current_node = current_node->next;
+	}
+	clr_lst(out_lst);
+	if (err_ovrr == -1)
+		return (-1);
+	return (total_len);
 }
 
 t_strlst	*create_out_node(char *str_start, int len)

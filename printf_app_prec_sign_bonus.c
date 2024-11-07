@@ -6,7 +6,7 @@
 /*   By: avaliull <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/06 19:33:17 by avaliull       #+#    #+#                */
-/*   Updated: 2024/11/06 19:42:17 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/07 17:46:17 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ char	*app_prec(char *conv_str, size_t zeroes_to_add, ssize_t *l, char neg)
 	if (!conv_str)
 		return (NULL);
 	i = 0;
-	prec_str = (char*) malloc((*l - neg) + zeroes_to_add + 1);
-	while(zeroes_to_add)
+	prec_str = (char *) malloc((*l - neg) + zeroes_to_add + 1);
+	while (zeroes_to_add)
 	{
 		prec_str[i] = '0';
 		zeroes_to_add--;
@@ -73,4 +73,3 @@ char	*app_sign(char *conv_str, ssize_t *l, char sign)
 	free(conv_str);
 	return (signed_str);
 }
-
