@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:33:13 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/08 13:41:19 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/08 14:42:16 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ typedef struct printf_lst
 	int					size;
 	struct printf_lst	*next;
 }						t_plst;
-
-typedef char *(func_ptr(void *, t_plst **));
 
 /*	PRIMARY FUNCTIONS	*/
 int			ft_printf(const char *format, ...);
