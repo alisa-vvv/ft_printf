@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf_app_wid_bonus.c                             :+:      :+:    :+:   */
+/*   printf_app_wid_bonus.c                              :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 19:26:11 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/07 19:44:32 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/11/08 14:02:40 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ char	*app_wid(char *conv_str, size_t pad_c, ssize_t *l, char *flags)
 	if (conv_str[0] == '-')
 		conv_str++;
 	pad_str = (char *) ft_calloc(1, new_l + 1);
+	if (!pad_str)
+	{
+		free(conv_str);
+		return (NULL);
+	}
 	if (pad == '0')
 		pad_zeroes(pad_str, conv_str, pad_c);
 	else if (flags[3] == '-')

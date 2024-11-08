@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_printf.h                                         :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:33:13 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/07 19:46:42 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/11/08 13:41:19 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char		*c_ptr(void *var, t_plst **out_lst);
 
 /*	BONUS FUNCTIONS	*/
 void		flag_finder(char *start, char *end, char *f_flags, ssize_t *w_p);
-void		w_s_finder(char *start, char *end, char *f_flags, ssize_t *w_p);
+void		w_p_finder(char *start, char *end, char *f_flags, ssize_t *w_p);
 char		*appf_cs(char *conv_str, char *flags, ssize_t *w_p, ssize_t *l);
 char		*appf_di(char *conv_str, char *flags, ssize_t *w_p, ssize_t *l);
 char		*app_wid(char *conv_str, size_t pad_c, ssize_t *l, char *flags);

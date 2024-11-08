@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf_app_prec_sign_bonus.c                       :+:      :+:    :+:   */
+/*   printf_app_prec_sign_bonus.c                        :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 19:33:17 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/07 19:44:32 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/11/08 14:00:06 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,13 @@ char	*app_prec(char *conv_str, size_t zero_count, ssize_t *l, char neg)
 	char	*prec_str;
 	size_t	i;
 
-	if (!conv_str)
-		return (NULL);
 	i = 0;
 	prec_str = (char *) malloc((*l - neg) + zero_count + 1);
+	if (!prec_str)
+	{
+		free(conv_str);
+		return (NULL);
+	}
 	while (zero_count)
 	{
 		prec_str[i] = '0';
@@ -51,18 +54,18 @@ char	*app_sign(char *conv_str, ssize_t *l, char sign)
 	ssize_t	j;
 	char	*signed_str;
 
-	if (!conv_str)
-		return (NULL);
 	i = 0;
 	j = 0;
 	signed_str = (char *) malloc(*l + 2);
-	if (*conv_str == ' ')
+	if (!signed_str)
 	{
-		while (conv_str[i] == ' ')
-		{
-			signed_str[i] = conv_str[i];
-			i++;
-		}
+		free(conv_str);
+		return (NULL);
+	}
+	while (conv_str[i] == ' ')
+	{
+		signed_str[i] = conv_str[i];
+		i++;
 	}
 	signed_str[i] = sign;
 	j = i + 1;

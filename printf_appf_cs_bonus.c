@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf_appf_cs_bonus.c                             :+:      :+:    :+:   */
+/*   printf_appf_cs_bonus.c                              :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:49:47 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/07 19:52:05 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/11/08 14:19:41 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,27 @@ char	*appf_di(char *str, char *flags, ssize_t *w_p, ssize_t *l)
 	return (str);
 }
 
-// The following function manage the application of flags/width 
+// The following functions manage the application of flags/width 
 // to formatted %s and %c variables.
 // flags map:		"f0.-# +"
 // ind map:			"0123456"
 // used:			"--++---"
 // w_p[0] - width, w_p[1] - precision ('.')
+
+static char	*alloc_for_cs(char *conv_str, ssize_t new_len)
+{
+	char	*modified_str;
+
+	modified_str = (char *) malloc ((new_len + 1) * sizeof(char));
+	if (!modified_str)
+	{
+		free(conv_str);
+		return (NULL);
+	}
+	modified_str[new_len] = '\0';
+	return (modified_str);
+}
+
 char	*appf_cs(char *conv_str, char *flags, ssize_t *w_p, ssize_t *l)
 {
 	char	*modified_str;
@@ -72,10 +87,9 @@ char	*appf_cs(char *conv_str, char *flags, ssize_t *w_p, ssize_t *l)
 	if (w_p[0] > *l)
 	{
 		new_len = w_p[0];
-		modified_str = (char *) malloc ((new_len + 1) * sizeof(char));
+		modified_str = alloc_for_cs(conv_str, new_len);
 		if (!modified_str)
 			return (NULL);
-		modified_str[new_len] = '\0';
 		if (flags[3] == '-')
 		{
 			ft_memset(modified_str + *l, ' ', new_len - *l);

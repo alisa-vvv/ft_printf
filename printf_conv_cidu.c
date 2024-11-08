@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf_conv_cidu.c                                 :+:      :+:    :+:   */
+/*   printf_conv_cidu.c                                  :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 13:03:35 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/07 19:58:47 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/11/08 14:06:56 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ char	*c_int(int var, t_plst **out_lst, char *flags, ssize_t *w_p)
 		return (NULL);
 	return (conv_str);
 }
-
-// VAR for +/' ' (sign), VAR for 0/- (just), VAR for width
 
 char	*c_uint(unsigned long long var, t_plst **out_lst)
 {

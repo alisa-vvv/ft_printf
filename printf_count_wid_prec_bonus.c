@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                         ::::::::           */
-/*   printf_count_w_p_bonus.c                       :+:    :+:           */
+/*   printf_count_wid_prec_bonus.c                       :+:    :+:           */
 /*                                                      +:+                   */
 /*   By: avaliull <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/02 17:07:32 by avaliull       #+#    #+#                */
-/*   Updated: 2024/11/07 18:00:08 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/08 13:40:59 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void	spec_finder(char *start, char *end, char *flags, ssize_t *w_p)
 	}
 }
 
-void	w_s_finder(char *start, char *end, char *f_flags, ssize_t *w_p)
+void	w_p_finder(char *start, char *end, char *f_flags, ssize_t *w_p)
 {
 	while (start != end && *start != '.')
 	{

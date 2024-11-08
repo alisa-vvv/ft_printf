@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf_conv_pxx.c                                  :+:      :+:    :+:   */
+/*   printf_conv_pxx.c                                   :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:43:45 by avaliull          #+#    #+#             */
-/*   Updated: 2024/11/07 19:44:32 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/11/08 14:23:37 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdlib.h>
-#include <stdint.h>
 
 // The following functions manage conversions for %p, %x, %X to string;
-// After conversion, function to apply bonus flags and manage width is called;
 // The resulting string is passed to add_str_to_list for writing later;
 // Return is either NULL or a ptr to the converted string for error-checking.
 
@@ -56,8 +54,6 @@ static char	*to_hex(unsigned long long n, char *symbols, int *len)
 	return (conv_str);
 }
 
-// VAR for 0/- (pad), VAR for width, VAR for # (mod), VAR for +/' ' (sign)
-
 char	*c_hexup(unsigned long long var, t_plst **out_lst)
 {
 	char			*conv_str;
@@ -70,8 +66,6 @@ char	*c_hexup(unsigned long long var, t_plst **out_lst)
 	add_str_to_list(conv_str, out_lst, len);
 	return (conv_str);
 }
-
-// VAR for 0/- (pad), VAR for width, VAR for # (mod), VAR for +/' ' (sign)
 
 char	*c_hexlo(unsigned long long var, t_plst **out_lst)
 {
@@ -86,8 +80,6 @@ char	*c_hexlo(unsigned long long var, t_plst **out_lst)
 	return (conv_str);
 }
 
-// VAR for 0/- (pad), VAR for width, VAR for # (mod), VAR for +/' ' (sign)
-
 char	*c_ptr(void *var, t_plst **out_lst)
 {
 	char				*conv_str;
@@ -95,7 +87,7 @@ char	*c_ptr(void *var, t_plst **out_lst)
 	unsigned long long	ptr_val;
 
 	len = 2;
-	ptr_val = (unsigned long long)(uintptr_t) var;
+	ptr_val = (unsigned long long) var;
 	if (!ptr_val)
 	{
 		conv_str = ft_strdup("(nil)");
