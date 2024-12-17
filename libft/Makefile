@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/10/24 12:39:18 by avaliull          #+#    #+#              #
-#    Updated: 2024/10/24 13:17:34 by avaliull         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 CFILES	=	ft_atoi.c\
 			ft_bzero.c\
 			ft_calloc.c\
@@ -59,7 +47,7 @@ OFILES	= $(CFILES:.c=.o)
 
 OFILESBONUS = $(FILESBONUS:.c=.o)
 
-CC	= cc
+CC	= gcc
 
 CFLAGS	= -Wall -Wextra -Werror
 
@@ -73,7 +61,6 @@ NAME	= libft.a
 	$(CC) $(CFLAGS) -c $< -o $@
 
 all: $(NAME)
-	chmod 755 $(NAME)
 
 $(NAME): $(OFILES)
 	$(AR) $(NAME) $(OFILES)

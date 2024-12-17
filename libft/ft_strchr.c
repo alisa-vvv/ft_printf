@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                         :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 18:19:53 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/17 17:31:24 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/12/15 14:08:47 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,17 @@
 char	*ft_strchr(const char *s, int c)
 {
 	char	*ptr_s;
+	char	chr;
 
+	chr = (char) c;
 	ptr_s = (char *) s;
 	while (*ptr_s)
 	{
-		if (*ptr_s == (char) c)
+		if (*ptr_s == chr)
 			return (ptr_s);
 		ptr_s++;
 	}
-	if ((char) c == '\0')
+	if (chr == '\0')
 		return (ptr_s);
 	return (NULL);
 }

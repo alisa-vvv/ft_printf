@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                         :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:13:04 by avaliull          #+#    #+#             */
-/*   Updated: 2024/10/14 14:07:41 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/12/15 14:06:28 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 void	*ft_memset(void *s, int c, size_t n)
 {
 	unsigned char	*ptr;
+	unsigned char	chr;
 
-	ptr = s;
-	while (n > 0)
-	{
-		*ptr = (unsigned char) c;
-		ptr++;
-		n--;
-	}
+	chr = (unsigned char) c;
+	ptr = (unsigned char *) s;
+	while (n--)
+		ptr[n] = chr;
 	return (s);
 }
