@@ -1,0 +1,8 @@
+#how to use submodules:
+#1. git submodule init - init a local config
+#2. git submodule update - fetch the data from submodules
+#or just do these to step on cloning by doing:
+#git clone --recurse-submodules
+[submodule "libft"]
+	path = libft
+	url = git@github.com:alisa-vvv/libft.git
